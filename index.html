@@ -1,1 +1,199 @@
-PLACEHOLDER
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>PRISM — Policy Research Institute for Security, Intelligence &amp; Modern Threats</title>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;0,8..60,700;1,8..60,400;1,8..60,600&family=Public+Sans:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+<style>
+  :root {
+    --bg:        #FAF8F3;
+    --surface:   #FFFFFF;
+    --border:    #E2DDCF;
+    --ink:       #1A1F2B;
+    --ink-soft:  #565463;
+    --ink-faint: #8B879A;
+    --internal:  #8A1B2C;
+    --geo:       #12395F;
+    --tech:      #0B5C55;
+    --serif: 'Source Serif 4', Georgia, serif;
+    --sans: 'Public Sans', -apple-system, sans-serif;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--bg); color: var(--ink); font-family: var(--sans); font-size: 16px; line-height: 1.65; }
+
+  header {
+    background: var(--surface); border-bottom: 1px solid var(--border);
+    padding: 22px 24px;
+  }
+  .header-inner { max-width: 1080px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; }
+  .brand { font-family: var(--serif); font-size: 21px; font-weight: 700; color: var(--ink); text-decoration: none; }
+  .brand span { color: var(--ink-faint); font-family: var(--sans); font-size: 12.5px; font-weight: 600; display: block; margin-top: 2px; }
+  nav { display: flex; gap: 24px; flex-wrap: wrap; }
+  nav a { font-size: 13.5px; font-weight: 600; color: var(--ink-soft); text-decoration: none; }
+  nav a:hover { color: var(--ink); }
+
+  .hero {
+    max-width: 1080px; margin: 0 auto; padding: 64px 24px 48px; text-align: center;
+  }
+  .hero-eyebrow { font-family: var(--sans); font-size: 13px; font-weight: 700; color: var(--ink-faint); letter-spacing: 0.04em; text-transform: uppercase; margin-bottom: 14px; }
+  .hero h1 { font-family: var(--serif); font-size: 40px; font-weight: 700; line-height: 1.2; margin-bottom: 20px; max-width: 780px; margin-left: auto; margin-right: auto; }
+  .hero p { font-size: 17.5px; color: var(--ink-soft); max-width: 620px; margin: 0 auto; line-height: 1.7; }
+
+  .pillars {
+    max-width: 1080px; margin: 0 auto; padding: 20px 24px 80px;
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px;
+  }
+  @media (max-width: 860px) { .pillars { grid-template-columns: 1fr; } }
+
+  .pillar-card {
+    background: var(--surface); border: 1px solid var(--border); border-top-width: 5px;
+    border-radius: 6px; padding: 30px 26px; text-decoration: none; color: var(--ink);
+    display: flex; flex-direction: column; transition: transform 0.15s ease, box-shadow 0.15s ease;
+  }
+  .pillar-card:hover { transform: translateY(-3px); box-shadow: 0 12px 28px -12px rgba(0,0,0,0.15); }
+  .pillar-card.internal { border-top-color: var(--internal); }
+  .pillar-card.geo { border-top-color: var(--geo); }
+  .pillar-card.tech { border-top-color: var(--tech); }
+
+  .pillar-num { font-family: var(--sans); font-size: 12px; font-weight: 700; letter-spacing: 0.05em; margin-bottom: 14px; }
+  .internal .pillar-num { color: var(--internal); }
+  .geo .pillar-num { color: var(--geo); }
+  .tech .pillar-num { color: var(--tech); }
+
+  .pillar-title { font-family: var(--serif); font-size: 22px; font-weight: 700; margin-bottom: 12px; line-height: 1.25; }
+  .pillar-desc { font-size: 14px; color: var(--ink-soft); line-height: 1.65; margin-bottom: 20px; flex-grow: 1; }
+  .pillar-tool {
+    border-top: 1px solid var(--border); padding-top: 16px; margin-top: auto;
+  }
+  .pillar-tool-label { font-family: var(--sans); font-size: 10.5px; font-weight: 700; color: var(--ink-faint); text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 5px; }
+  .pillar-tool-name { font-family: var(--serif); font-size: 15px; font-weight: 600; }
+  .pillar-arrow { font-size: 13px; margin-left: 4px; }
+
+  .about {
+    background: var(--surface); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);
+    padding: 60px 24px;
+  }
+  .about-inner { max-width: 720px; margin: 0 auto; }
+  .about h2 { font-family: var(--serif); font-size: 26px; font-weight: 700; margin-bottom: 18px; }
+  .about p { font-size: 15.5px; color: var(--ink-soft); margin-bottom: 16px; line-height: 1.75; }
+
+  .briefs { max-width: 1080px; margin: 0 auto; padding: 60px 24px 70px; }
+  .briefs-head { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 28px; flex-wrap: wrap; gap: 10px; }
+  .briefs-head h2 { font-family: var(--serif); font-size: 26px; font-weight: 700; }
+  .briefs-head span { font-size: 13px; color: var(--ink-faint); }
+  .briefs-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+  @media (max-width: 860px) { .briefs-grid { grid-template-columns: 1fr; } }
+  .brief-card {
+    background: var(--surface); border: 1px solid var(--border); border-radius: 6px; padding: 24px;
+    display: flex; flex-direction: column;
+  }
+  .brief-pillar { font-family: var(--sans); font-size: 10.5px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 10px; }
+  .brief-pillar.internal { color: var(--internal); }
+  .brief-pillar.geo { color: var(--geo); }
+  .brief-pillar.tech { color: var(--tech); }
+  .brief-title { font-family: var(--serif); font-size: 17px; font-weight: 700; margin-bottom: 10px; line-height: 1.35; }
+  .brief-excerpt { font-size: 13.5px; color: var(--ink-soft); line-height: 1.6; margin-bottom: 16px; flex-grow: 1; }
+  .brief-meta { font-size: 11.5px; color: var(--ink-faint); border-top: 1px solid var(--border); padding-top: 12px; display: flex; justify-content: space-between; }
+
+  footer { text-align: center; padding: 36px 24px 50px; font-size: 12.5px; color: var(--ink-faint); }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-inner">
+    <a href="index.html" class="brand">PRISM<span>Policy Research Institute for Security, Intelligence &amp; Modern Threats</span></a>
+    <nav>
+      <a href="internal-security.html">Internal Security</a>
+      <a href="geopolitics-national-security.html">Geopolitics &amp; National Security</a>
+      <a href="technology-national-security.html">Technology &amp; National Security</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <div class="hero">
+    <div class="hero-eyebrow">A think tank built around three questions, not one</div>
+    <h1>Where a threat originates rarely tells you where it will be felt.</h1>
+    <p>PRISM studies security as it actually moves — across borders, across domains, and across the line between a nation's internal life and its place in the world. Our work is organized around three pillars, each anchored by original, evidence-first research instruments.</p>
+  </div>
+
+  <div class="pillars">
+    <a href="internal-security.html" class="pillar-card internal">
+      <div class="pillar-num">PILLAR ONE</div>
+      <div class="pillar-title">Internal Security</div>
+      <div class="pillar-desc">How a state governs the contested spaces within its own borders — and how the record of that governance, read closely and honestly, explains the present far better than the present explains itself.</div>
+      <div class="pillar-tool">
+        <div class="pillar-tool-label">Flagship instrument</div>
+        <div class="pillar-tool-name">Kashmir in the American Record<span class="pillar-arrow">→</span></div>
+      </div>
+    </a>
+
+    <a href="geopolitics-national-security.html" class="pillar-card geo">
+      <div class="pillar-num">PILLAR TWO</div>
+      <div class="pillar-title">Geopolitics &amp; National Security</div>
+      <div class="pillar-desc">The contest for narrative control is now as consequential as the contest for territory. This pillar tracks how regional rivals — Pakistan foremost among them — wage that contest against India in real time.</div>
+      <div class="pillar-tool">
+        <div class="pillar-tool-label">Flagship instrument</div>
+        <div class="pillar-tool-name">Pakistan Information Warfare Tracker<span class="pillar-arrow">→</span></div>
+      </div>
+    </a>
+
+    <a href="technology-national-security.html" class="pillar-card tech">
+      <div class="pillar-num">PILLAR THREE</div>
+      <div class="pillar-title">Technology &amp; National Security</div>
+      <div class="pillar-desc">Biotechnology, AI, and the widening space between them are rewriting what a security threat even looks like — often years before doctrine or regulation catches up. This pillar builds the instruments to watch that space directly.</div>
+      <div class="pillar-tool">
+        <div class="pillar-tool-label">Flagship instrument</div>
+        <div class="pillar-tool-name">CONTAINMENT Biosecurity Dashboard<span class="pillar-arrow">→</span></div>
+      </div>
+    </a>
+  </div>
+</main>
+
+<div class="about">
+  <div class="about-inner">
+    <h2>Why three pillars, not one</h2>
+    <p>Most security research treats "internal" and "external" threats as separate disciplines, and treats technology as a footnote to both. We don't. A dispute inside a nation's own borders shapes how it negotiates abroad. A rival's information campaign is inseparable from its strategic posture. And a biotechnology breakthrough with no stated military purpose can still redraw the security landscape faster than any treaty.</p>
+    <p>Each pillar is built around a primary research instrument — not a static report, but a living body of work that gets read, verified, and extended over time. We would rather show our sourcing than assert our conclusions.</p>
+  </div>
+</div>
+
+<div class="briefs">
+  <div class="briefs-head">
+    <h2>Recent Briefs</h2>
+    <span>Short-form findings from ongoing research</span>
+  </div>
+  <div class="briefs-grid">
+    <a href="internal-security.html" style="text-decoration:none;">
+    <div class="brief-card">
+      <div class="brief-pillar internal">Internal Security</div>
+      <div class="brief-title">The Founding Policy Paper Nobody Cites</div>
+      <div class="brief-excerpt">A newly-surfaced State Department paper, signed by Secretary of State George Marshall the day the UN Security Council first took up Kashmir, shows the plebiscite was Washington's own preferred outcome from day one — not a British or UN imposition.</div>
+      <div class="brief-meta"><span>Dr. Gaurav Tyagi</span><span>2026</span></div>
+    </div>
+    </a>
+    <a href="geopolitics-national-security.html" style="text-decoration:none;">
+    <div class="brief-card">
+      <div class="brief-pillar geo">Geopolitics &amp; National Security</div>
+      <div class="brief-title">Why "Found Zero" Is Still a Result</div>
+      <div class="brief-excerpt">On the discipline behind the Pakistan Information Warfare Tracker: a research pull that finds nothing new gets logged honestly, with the reasoning stated — not quietly skipped to preserve an appearance of constant activity.</div>
+      <div class="brief-meta"><span>Dr. Gaurav Tyagi</span><span>2026</span></div>
+    </div>
+    </a>
+    <a href="technology-national-security.html" style="text-decoration:none;">
+    <div class="brief-card">
+      <div class="brief-pillar tech">Technology &amp; National Security</div>
+      <div class="brief-title">No Model Checks Your ID</div>
+      <div class="brief-excerpt">CONTAINMENT's Guardrail Matrix finds that none of the major AI biodesign models in wide use today — AlphaFold 3, ESM3, OpenCRISPR-1, Evo 2 — require identity verification before use.</div>
+      <div class="brief-meta"><span>Dr. Gaurav Tyagi</span><span>2026</span></div>
+    </div>
+    </a>
+  </div>
+</div>
+
+<footer>PRISM — Policy Research Institute for Security, Intelligence &amp; Modern Threats</footer>
+
+</body>
+</html>
