@@ -53,6 +53,12 @@
   .method-list b { color: var(--ink); }
 
   footer { text-align: center; padding: 36px 24px 50px; font-size: 12.5px; color: var(--ink-faint); border-top: 1px solid var(--border); margin-top: 40px; }
+
+  .page-icon { width: 44px; height: 44px; margin-bottom: 18px; color: var(--accent); }
+  .page-icon svg { width: 100%; height: 100%; display: block; }
+  .reveal { opacity: 0; transform: translateY(18px); transition: opacity 0.6s ease, transform 0.6s ease; }
+  .reveal.revealed { opacity: 1; transform: translateY(0); }
+  @media (prefers-reduced-motion: reduce) { .reveal { opacity: 1; transform: none; transition: none; } }
 </style>
 </head>
 <body>
@@ -74,6 +80,7 @@
 </header>
 
 <main>
+  <div class="page-icon"><svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="17" cy="21" r="12"/><path d="M5 21 H29 M17 9 C21.5 13 21.5 29 17 33 M17 9 C12.5 13 12.5 29 17 33"/><path d="M27 9 C31 11 33 14 33 17" stroke-dasharray="1.5 2.5"/><path d="M31 5 C36 8 38 12 38 17" stroke-dasharray="1.5 2.5" opacity="0.6"/></svg></div>
   <div class="eyebrow">Pillar Two</div>
   <h1>Geopolitics &amp; National Security</h1>
   <p class="lede">A hostile information campaign leaves a trail — a deepfake, a coordinated hashtag, a fabricated quote attributed to a serving officer. The trail is often visible in real time, if you know where to look and refuse to log anything you can't actually verify.</p>
@@ -82,7 +89,7 @@
 
   <p>PRISM's work in this pillar centers on Pakistan's information warfare campaign against India — not as an assumption, but as a claim that has to earn its place in the record through the same evidentiary discipline any other intelligence assessment would require.</p>
 
-  <div class="tool-card">
+  <div class="tool-card reveal">
     <div class="tool-label">Flagship Instrument</div>
     <div class="tool-title">Pakistan Information Warfare Tracker</div>
     <div class="tool-desc">A live, continuously updated registry of verified Pakistan-attributed information warfare incidents targeting India — deepfakes, coordinated disinformation, and fabricated official statements — logged only after explicit Pakistan attribution is confirmed against primary fact-checking sources. Weak or unverified claims are recorded as declined, with the reasoning stated, not quietly dropped.</div>
@@ -107,5 +114,6 @@
 
 <footer>PRISM — Policy Research Institute for Security, Intelligence &amp; Modern Threats</footer>
 
+<script src="script.js"></script>
 </body>
 </html>

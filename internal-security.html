@@ -48,6 +48,12 @@
   .section-title { font-family: var(--serif); font-size: 20px; font-weight: 700; margin: 44px 0 14px; padding-bottom: 10px; border-bottom: 1.5px solid var(--ink); }
 
   footer { text-align: center; padding: 36px 24px 50px; font-size: 12.5px; color: var(--ink-faint); border-top: 1px solid var(--border); margin-top: 40px; }
+
+  .page-icon { width: 44px; height: 44px; margin-bottom: 18px; color: var(--accent); }
+  .page-icon svg { width: 100%; height: 100%; display: block; }
+  .reveal { opacity: 0; transform: translateY(18px); transition: opacity 0.6s ease, transform 0.6s ease; }
+  .reveal.revealed { opacity: 1; transform: translateY(0); }
+  @media (prefers-reduced-motion: reduce) { .reveal { opacity: 1; transform: none; transition: none; } }
 </style>
 </head>
 <body>
@@ -69,6 +75,7 @@
 </header>
 
 <main>
+  <div class="page-icon"><svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 4 L33 9 V19 C33 27 27 33 20 36 C13 33 7 27 7 19 V9 Z"/><path d="M14 18 H26 M14 23 H22"/></svg></div>
   <div class="eyebrow">Pillar One</div>
   <h1>Internal Security</h1>
   <p class="lede">Some of the most consequential decisions a state makes are never announced as decisions at all — they surface later, in the archive, as the cables and memos of officials who were simply doing their jobs. This pillar is built on the belief that primary sources, read patiently and in full, tell a truer story than any retrospective narrative built around them.</p>
@@ -77,7 +84,7 @@
 
   <p>PRISM's work in this pillar starts with the Kashmir dispute — not as a single flashpoint, but as a continuous thread running from the earliest days of independence through the present, told through the declassified American diplomatic record and cross-checked wherever possible against Indian, British, and UN primary sources.</p>
 
-  <div class="tool-card">
+  <div class="tool-card reveal">
     <div class="tool-label">Flagship Instrument</div>
     <div class="tool-title">Kashmir in the American Record</div>
     <div class="tool-desc">A continuously growing archive of declassified US State Department documents on the Kashmir dispute, organized by presidential administration rather than by year — so each administration's own approach to Kashmir can be read as a coherent whole. Every entry is tagged by exactly how it was verified: full text read, substantial excerpt, cited but not yet read, or secondary account.</div>
@@ -97,5 +104,6 @@
 
 <footer>PRISM — Policy Research Institute for Security, Intelligence &amp; Modern Threats</footer>
 
+<script src="script.js"></script>
 </body>
 </html>

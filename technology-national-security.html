@@ -57,6 +57,12 @@
   .status-detail { font-size: 12px; color: var(--ink-faint); }
 
   footer { text-align: center; padding: 36px 24px 50px; font-size: 12.5px; color: var(--ink-faint); border-top: 1px solid var(--border); margin-top: 40px; }
+
+  .page-icon { width: 44px; height: 44px; margin-bottom: 18px; color: var(--accent); }
+  .page-icon svg { width: 100%; height: 100%; display: block; }
+  .reveal { opacity: 0; transform: translateY(18px); transition: opacity 0.6s ease, transform 0.6s ease; }
+  .reveal.revealed { opacity: 1; transform: translateY(0); }
+  @media (prefers-reduced-motion: reduce) { .reveal { opacity: 1; transform: none; transition: none; } }
 </style>
 </head>
 <body>
@@ -78,6 +84,7 @@
 </header>
 
 <main>
+  <div class="page-icon"><svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5 C12 13 28 13 28 21 C28 29 12 29 12 37"/><path d="M28 5 C28 13 12 13 12 21 C12 29 28 29 28 37"/><path d="M13.5 10 H26.5 M13.5 21 H26.5 M13.5 32 H26.5" stroke-width="1.3"/></svg></div>
   <div class="eyebrow">Pillar Three</div>
   <h1>Technology &amp; National Security</h1>
   <p class="lede">Warfare's domains have expanded in a predictable sequence — land, sea, air, then nuclear, then space, then cyber, and now the information and cognitive space itself. Technology hasn't just changed how each domain is fought in; it has been the reason new domains open at all.</p>
@@ -86,7 +93,7 @@
 
   <p>PRISM's work in this pillar is built around a simple premise: technology rarely announces when it becomes a security question. Most of these shifts are visible only in retrospect — which is exactly why they're worth tracking as they happen, not just writing up after the fact.</p>
 
-  <div class="tool-card">
+  <div class="tool-card reveal">
     <div class="tool-label">Flagship Instrument — Biosecurity &amp; Dual-Use Convergence</div>
     <div class="tool-title">CONTAINMENT Biosecurity Dashboard</div>
     <div class="tool-desc">Our most developed instrument in this pillar so far, covering the biotechnology-AI convergence corner of the broader technology-and-security landscape: tracking BSL-3/4 facility locations, GDELT-powered outbreak signal detection with real z-score anomaly baselines, AI-biodesign model governance gaps, DNA synthesis screening coverage, and a historical map of dual-use incidents, each independently sourced and confidence-tagged. Instruments covering the cyber, space, and broader AI-governance domains within this pillar are in development.</div>
@@ -113,5 +120,6 @@
 
 <footer>PRISM — Policy Research Institute for Security, Intelligence &amp; Modern Threats</footer>
 
+<script src="script.js"></script>
 </body>
 </html>
