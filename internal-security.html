@@ -3,60 +3,26 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<script>(function(){try{var t=localStorage.getItem("prism-theme");if(t)document.documentElement.setAttribute("data-theme",t);}catch(e){}})();</script>
 <title>Internal Security — PRISM</title>
+<link rel="icon" type="image/svg+xml" href="favicon.svg"/>
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png"/>
+<link rel="icon" type="image/png" sizes="16x16" href="favicon-16.png"/>
+<link rel="apple-touch-icon" href="apple-touch-icon.png"/>
+<meta property="og:type" content="website"/>
+<meta property="og:site_name" content="PRISM"/>
+<meta property="og:title" content="Internal Security — PRISM"/>
+<meta property="og:description" content="How a state governs the contested spaces within its own borders, told through the declassified American diplomatic record on Kashmir."/>
+<meta property="og:image" content="https://gauravmicrobhu-cyber.github.io/prism-website/og-image.png"/>
+<meta property="og:url" content="https://gauravmicrobhu-cyber.github.io/prism-website/internal-security.html"/>
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:title" content="Internal Security — PRISM"/>
+<meta name="twitter:description" content="How a state governs the contested spaces within its own borders, told through the declassified American diplomatic record on Kashmir."/>
+<meta name="twitter:image" content="https://gauravmicrobhu-cyber.github.io/prism-website/og-image.png"/>
 <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;0,8..60,700;1,8..60,400;1,8..60,600&family=Public+Sans:wght@400;500;600;700&display=swap" rel="stylesheet"/>
-<style>
-  :root {
-    --bg: #FAF8F3; --surface: #FFFFFF; --border: #E2DDCF;
-    --ink: #1A1F2B; --ink-soft: #565463; --ink-faint: #8B879A;
-    --accent: #8A1B2C; --accent-bg: #F5E7E9;
-    --serif: 'Source Serif 4', Georgia, serif; --sans: 'Public Sans', -apple-system, sans-serif;
-  }
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  body { background: var(--bg); color: var(--ink); font-family: var(--sans); font-size: 16px; line-height: 1.65; }
-  header { background: var(--surface); border-bottom: 1px solid var(--border); padding: 22px 24px; }
-  .header-inner { max-width: 900px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; }
-  .brand { font-family: var(--serif); font-size: 18px; font-weight: 700; color: var(--ink); text-decoration: none; }
-  nav { display: flex; gap: 22px; flex-wrap: wrap; }
-  nav a { font-size: 13px; font-weight: 600; color: var(--ink-soft); text-decoration: none; }
-  nav a.current { color: var(--accent); }
-  nav a:hover { color: var(--ink); }
-
-  main { max-width: 780px; margin: 0 auto; padding: 50px 24px 80px; }
-  .eyebrow { font-family: var(--sans); font-size: 13px; font-weight: 700; color: var(--accent); letter-spacing: 0.04em; text-transform: uppercase; margin-bottom: 12px; }
-  h1 { font-family: var(--serif); font-size: 34px; font-weight: 700; margin-bottom: 20px; line-height: 1.25; }
-  .lede { font-family: var(--serif); font-size: 19px; color: var(--ink); line-height: 1.65; margin-bottom: 30px; }
-  p { font-size: 15.5px; color: var(--ink-soft); margin-bottom: 18px; line-height: 1.75; }
-
-  .tool-card {
-    background: var(--surface); border: 1px solid var(--border); border-left: 5px solid var(--accent);
-    border-radius: 6px; padding: 32px; margin: 40px 0;
-  }
-  .tool-label { font-family: var(--sans); font-size: 11px; font-weight: 700; color: var(--accent); text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 10px; }
-  .tool-title { font-family: var(--serif); font-size: 24px; font-weight: 700; margin-bottom: 14px; }
-  .tool-desc { font-size: 15px; color: var(--ink-soft); margin-bottom: 22px; line-height: 1.7; }
-  .tool-stats { display: flex; gap: 28px; margin-bottom: 24px; flex-wrap: wrap; }
-  .tool-stat b { display: block; font-family: var(--serif); font-size: 22px; color: var(--accent); }
-  .tool-stat span { font-size: 12px; color: var(--ink-faint); }
-  .tool-link {
-    display: inline-block; background: var(--accent); color: #fff; font-family: var(--sans);
-    font-size: 14px; font-weight: 700; padding: 12px 24px; border-radius: 5px; text-decoration: none;
-  }
-  .tool-link:hover { opacity: 0.9; }
-  .tool-note { font-size: 12.5px; color: var(--ink-faint); margin-top: 14px; font-style: italic; }
-
-  .section-title { font-family: var(--serif); font-size: 20px; font-weight: 700; margin: 44px 0 14px; padding-bottom: 10px; border-bottom: 1.5px solid var(--ink); }
-
-  footer { text-align: center; padding: 36px 24px 50px; font-size: 12.5px; color: var(--ink-faint); border-top: 1px solid var(--border); margin-top: 40px; }
-
-  .page-icon { width: 44px; height: 44px; margin-bottom: 18px; color: var(--accent); }
-  .page-icon svg { width: 100%; height: 100%; display: block; }
-  .reveal { opacity: 0; transform: translateY(18px); transition: opacity 0.6s ease, transform 0.6s ease; }
-  .reveal.revealed { opacity: 1; transform: translateY(0); }
-  @media (prefers-reduced-motion: reduce) { .reveal { opacity: 1; transform: none; transition: none; } }
-</style>
+<link rel="stylesheet" href="style.css"/>
 </head>
-<body>
+<body class="theme-internal">
 
 <header>
   <div class="header-inner">
@@ -71,6 +37,10 @@
       <a href="careers.html">Careers</a>
       <a href="contact-us.html">Contact Us</a>
     </nav>
+    <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode" type="button">
+      <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="4.5"/><path d="M12 2.5v2.5M12 19v2.5M4.2 4.2l1.8 1.8M18 18l1.8 1.8M2.5 12H5M19 12h2.5M4.2 19.8L6 18M18 6l1.8-1.8"/></svg>
+      <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 14.5A8.5 8.5 0 1 1 9.5 4a7 7 0 0 0 10.5 10.5Z"/></svg>
+    </button>
   </div>
 </header>
 
@@ -89,11 +59,41 @@
     <div class="tool-title">Kashmir in the American Record</div>
     <div class="tool-desc">A continuously growing archive of declassified US State Department documents on the Kashmir dispute, organized by presidential administration rather than by year — so each administration's own approach to Kashmir can be read as a coherent whole. Every entry is tagged by exactly how it was verified: full text read, substantial excerpt, cited but not yet read, or secondary account.</div>
     <div class="tool-stats">
-      <div class="tool-stat"><b>97+</b><span>documents read in full or substantial excerpt</span></div>
+      <div class="tool-stat"><b data-count-to="97" data-suffix="+">0+</b><span>documents read in full or substantial excerpt</span></div>
       <div class="tool-stat"><b>1946–1952</b><span>continuous coverage, Truman era</span></div>
-      <div class="tool-stat"><b>5</b><span>FRUS volumes drawn on directly</span></div>
+      <div class="tool-stat"><b data-count-to="5">0</b><span>FRUS volumes drawn on directly</span></div>
     </div>
     <a href="https://gauravmicrobhu-cyber.github.io/Kashmir_US_Documents/" class="tool-link" target="_blank" rel="noopener">Open the Archive →</a>
+  </div>
+
+  <div class="section-title">Coverage Timeline</div>
+  <p>PRISM's Kashmir archive is organized by presidential administration, not by year — each block below spans one administration (or grouped administrations), sized roughly by its length in office. Click any period to see its coverage status.</p>
+
+  <div class="timeline reveal" id="kashmirTimeline">
+    <div class="timeline-track">
+      <button class="timeline-block covered selected" data-admin="truman" style="flex-grow: 8;" type="button">
+        <span class="timeline-name">Truman</span><span class="timeline-years">1945–53</span>
+      </button>
+      <button class="timeline-block" data-admin="eisenhower" style="flex-grow: 8;" type="button">
+        <span class="timeline-name">Eisenhower</span><span class="timeline-years">1953–61</span>
+      </button>
+      <button class="timeline-block" data-admin="kennedy-johnson" style="flex-grow: 8;" type="button">
+        <span class="timeline-name">Kennedy–Johnson</span><span class="timeline-years">1961–69</span>
+      </button>
+      <button class="timeline-block" data-admin="nixon-ford" style="flex-grow: 8;" type="button">
+        <span class="timeline-name">Nixon–Ford</span><span class="timeline-years">1969–77</span>
+      </button>
+      <button class="timeline-block" data-admin="carter-reagan-bush" style="flex-grow: 16;" type="button">
+        <span class="timeline-name">Carter–Reagan–H.W. Bush</span><span class="timeline-years">1977–93</span>
+      </button>
+      <button class="timeline-block" data-admin="clinton-bush-obama" style="flex-grow: 24;" type="button">
+        <span class="timeline-name">Clinton–W. Bush–Obama</span><span class="timeline-years">1993–2017</span>
+      </button>
+      <button class="timeline-block" data-admin="recent" style="flex-grow: 9;" type="button">
+        <span class="timeline-name">2017–present</span><span class="timeline-years">Not yet covered</span>
+      </button>
+    </div>
+    <div class="timeline-detail" id="timelineDetail"></div>
   </div>
 
   <div class="section-title">What the archive has already surfaced</div>
@@ -102,7 +102,35 @@
   <p>The work continues session by session, chapter by chapter, through the FRUS volumes that follow — a deliberate, transparent, and slow-built record rather than a finished conclusion.</p>
 </main>
 
-<footer>PRISM — Policy Research Institute for Security, Intelligence &amp; Modern Threats</footer>
+<footer>
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <a href="index.html" class="brand">PRISM</a>
+      <p>An independent research institute studying security across internal, geopolitical, and technological domains — built around evidence-first instruments, not press releases.</p>
+    </div>
+    <div class="footer-col">
+      <h4>Explore</h4>
+      <a href="about-us.html">About Us</a>
+      <a href="projects.html">Projects</a>
+      <a href="insights.html">Insights</a>
+      <a href="experts.html">Experts</a>
+    </div>
+    <div class="footer-col">
+      <h4>Focus Areas</h4>
+      <a href="internal-security.html">Internal Security</a>
+      <a href="geopolitics-national-security.html">Geopolitics &amp; National Security</a>
+      <a href="technology-national-security.html">Technology &amp; National Security</a>
+    </div>
+    <div class="footer-col">
+      <h4>Connect</h4>
+      <a href="contact-us.html">Contact Us</a>
+      <a href="careers.html">Careers</a>
+      <a href="events.html">Events</a>
+      <a href="privacy-policy.html">Privacy Policy</a>
+    </div>
+  </div>
+  <div class="footer-bottom">© 2026 PRISM — Policy Research Institute for Security, Intelligence &amp; Modern Threats.</div>
+</footer>
 
 <script src="script.js"></script>
 </body>
