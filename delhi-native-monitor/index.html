@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<script>(function(){try{var t=localStorage.getItem("prism-theme");if(t)document.documentElement.setAttribute("data-theme",t);}catch(e){}})();</script>
+<title>Delhi Native–Outsider Discourse Monitor — PRISM</title>
+<meta name="description" content="PRISM's live monitor of social-media pages pushing Delhi native-vs-outsider framing. Updated twice daily."/>
+<link rel="icon" type="image/svg+xml" href="../favicon.svg"/>
+<link rel="icon" type="image/png" sizes="32x32" href="../favicon-32.png"/>
+<link rel="apple-touch-icon" href="../apple-touch-icon.png"/>
+<meta property="og:type" content="website"/>
+<meta property="og:site_name" content="PRISM"/>
+<meta property="og:title" content="Delhi Native–Outsider Discourse Monitor — PRISM"/>
+<meta property="og:description" content="Live tracking of Instagram and Threads pages that frame Delhi's Partition-era migrants and other non-natives as occupiers: flagged posts, a linkage map, reach and an evidence archive."/>
+<meta property="og:image" content="https://gauravmicrobhu-cyber.github.io/prism-website/og-image.png"/>
+<meta property="og:url" content="https://gauravmicrobhu-cyber.github.io/prism-website/delhi-native-monitor/"/>
+<meta name="twitter:card" content="summary_large_image"/>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;0,8..60,700;1,8..60,400;1,8..60,600&family=Public+Sans:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="../style.css"/>
+<style>
+.mon{--card:var(--surface);--line:var(--border);--mute:var(--ink-soft);--accent:var(--brand);--flag:#B3261E;--flagbg:#FBEAE8;--ok:#2F6B3A;--warn:#9A6A00;font-size:14px;line-height:1.5}
+:root[data-theme="dark"] .mon{--flag:#FF8A80;--flagbg:#3A1F1C;--ok:#8FD19E;--warn:#E3B955}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .mon{--flag:#FF8A80;--flagbg:#3A1F1C;--ok:#8FD19E;--warn:#E3B955}}
+.mon p{font-size:14px;line-height:1.55;margin-bottom:0}
+.mon .crumb{font-size:13px;font-weight:600;margin-bottom:10px}.mon .crumb a{color:var(--brand);text-decoration:none}
+.mon h1{font-size:30px;margin-bottom:8px}
+.mon .wrap{max-width:none;padding:0}
+
+.wrap{max-width:1100px;margin:0 auto;padding:20px 16px 48px}
+.mon h1{font:600 26px/1.2 var(--serif);margin:0 0 4px}
+.mon h2{font:600 18px/1.3 var(--serif);margin:0 0 10px}
+.mon .sub{color:var(--mute);margin:0 0 18px}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin-bottom:18px}
+.kpi{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:12px 14px}
+.kpi .v{font:600 24px/1.1 var(--serif)}
+.kpi .l{color:var(--mute);font-size:12px}
+.kpi.flag .v{color:var(--flag)}
+.card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:14px;margin-bottom:16px}
+.tabs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:14px}
+.tabs button{border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:999px;padding:6px 12px;font:500 13px var(--sans);cursor:pointer}
+.tabs button.on{background:var(--accent);border-color:var(--accent);color:#fff}
+table{width:100%;border-collapse:collapse;font-size:13px}
+th{text-align:left;color:var(--mute);font-weight:500;border-bottom:1px solid var(--line);padding:6px 8px;white-space:nowrap}
+td{border-bottom:1px solid var(--line);padding:7px 8px;vertical-align:top}
+tr.fl td:first-child{box-shadow:inset 3px 0 0 var(--flag)}
+.tag{display:inline-block;font-size:11px;padding:1px 7px;border-radius:999px;background:var(--line);color:var(--ink);white-space:nowrap}
+.tag.h{background:var(--flagbg);color:var(--flag)}
+.mute{color:var(--mute)}
+.mon a{color:var(--accent)}
+.scroll{overflow-x:auto}
+.filters{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px}
+.filters select,.filters input{border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:8px;padding:6px 8px;font:13px var(--sans)}
+#chart{width:100%;height:220px;position:relative}
+.tip{position:absolute;pointer-events:none;background:var(--ink);color:var(--bg);font-size:12px;padding:4px 8px;border-radius:6px;white-space:nowrap;display:none}
+.empty{color:var(--mute);padding:16px 4px}
+.mini{border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:6px;padding:3px 8px;font:12px var(--sans);cursor:pointer;margin-right:4px}
+.mon .note{font-size:12px;color:var(--mute);margin-top:8px}
+@media (max-width:560px){.hide-sm{display:none}}
+</style>
+</head>
+<body class="theme-internal">
+
+<header>
+  <div class="header-inner">
+    <a href="../index.html" class="brand">PRISM</a>
+    <nav>
+      <a href="../about-us.html">About Us</a>
+      <a href="../projects.html">Projects</a>
+      <a href="../experts.html">Experts</a>
+      <a href="../programs.html">Programs</a>
+      <a href="../publications.html">Publications</a>
+      <a href="../events.html">Events</a>
+      <a href="../careers.html">Careers</a>
+      <a href="../contact-us.html">Contact Us</a>
+    </nav>
+    <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode" type="button">
+      <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="4.5"/><path d="M12 2.5v2.5M12 19v2.5M4.2 4.2l1.8 1.8M18 18l1.8 1.8M2.5 12H5M19 12h2.5M4.2 19.8L6 18M18 6l1.8-1.8"/></svg>
+      <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 14.5A8.5 8.5 0 1 1 9.5 4a7 7 0 0 0 10.5 10.5Z"/></svg>
+    </button>
+  </div>
+</header>
+
+<main class="wide mon">
+<div class="wrap">
+  <div class="crumb"><a href="../internal-security.html">Internal Security</a> › Instruments</div>
+  <div class="eyebrow">Pillar One · Live Instrument</div>
+  <h1>Delhi Native–Outsider Discourse Monitor</h1>
+  <p class="sub">Instagram pages pushing "Delhi Dehat / Moolniwasi vs outsider" framing. A PRISM research instrument. Updated twice daily from public posts. <span id="lastrun"></span></p>
+
+  <div class="kpis" id="kpis">
+    <div class="kpi"><div class="v" id="k-pages">—</div><div class="l">Pages watched</div></div>
+    <div class="kpi"><div class="v" id="k-posts">—</div><div class="l">Posts logged</div></div>
+    <div class="kpi flag"><div class="v" id="k-flag7">—</div><div class="l">Flagged, last 7 days</div></div>
+    <div class="kpi flag"><div class="v" id="k-flag">—</div><div class="l">Flagged, all time</div></div>
+    <div class="kpi"><div class="v" id="k-cand">—</div><div class="l">New pages to review</div></div>
+    <div class="kpi flag"><div class="v" id="k-del">—</div><div class="l">Archived posts deleted</div></div>
+  </div>
+
+  <div class="tabs" id="tabs">
+    <button data-t="feed" class="on">Flagged feed</button>
+    <button data-t="net">Network</button>
+    <button data-t="reach">Reach</button>
+    <button data-t="trend">Activity trend</button>
+    <button data-t="evid">Evidence</button>
+    <button data-t="site">Website</button>
+    <button data-t="watch">Watchlist</button>
+    <button data-t="cand">Under review</button>
+    <button data-t="runs">Run log</button>
+  </div>
+
+  <section class="card" id="v-feed">
+    <h2>Flagged posts</h2>
+    <div class="filters">
+      <select id="f-page"><option value="">All pages</option></select>
+      <select id="f-tone"><option value="">All tones</option></select>
+      <input id="f-q" placeholder="Search text" size="18">
+    </div>
+    <div class="scroll"><table id="t-feed"><thead><tr><th>Date</th><th>Page</th><th>Post</th><th class="hide-sm">Why flagged</th><th class="hide-sm">Views</th><th class="hide-sm">Likes</th><th class="hide-sm">Comments</th><th class="hide-sm">Comment stance</th></tr></thead><tbody></tbody></table></div>
+    <div class="empty" id="e-feed" hidden>No flagged posts yet.</div>
+  </section>
+
+  <section class="card" id="v-net" hidden>
+    <h2>Linkage map</h2>
+    <div id="net" style="position:relative;width:100%;height:520px"><div class="tip" id="ntip" style="white-space:normal;max-width:280px"></div></div>
+    <div class="note" id="net-legend"></div>
+    <div class="scroll" style="margin-top:12px"><table id="t-links"><thead><tr><th>From</th><th>To</th><th>Link</th><th class="hide-sm">Evidence</th><th class="hide-sm">Last seen</th></tr></thead><tbody></tbody></table></div>
+    <p class="note">Updated by each scheduled run. Drag nodes to rearrange; tap a node or line for details.</p>
+  </section>
+
+  <section class="card" id="v-reach" hidden>
+    <h2>Reach (public reel views)</h2>
+    <div class="scroll"><table id="t-reach"><thead><tr><th>Page</th><th>Followers</th><th>Reels sampled</th><th>Median views</th><th class="hide-sm">Average</th><th class="hide-sm">Top reel</th><th>Median ÷ followers</th><th class="hide-sm">Collab reels</th><th class="hide-sm">Snapshot</th></tr></thead><tbody></tbody></table></div>
+    <h2 style="margin-top:18px">Median views per reel over time</h2>
+    <div id="rchart" style="width:100%;height:200px;position:relative"><div class="tip" id="rtip"></div></div>
+    <h2 style="margin-top:18px">Most-viewed reels</h2>
+    <div class="filters"><select id="f-rpage"></select></div>
+    <div class="scroll"><table id="t-top"><thead><tr><th>Reel</th><th>Views</th><th class="hide-sm">7-day gain</th><th class="hide-sm">Flag</th></tr></thead><tbody></tbody></table></div>
+    <p class="note">Views are Instagram's public play counts read from each page's Reels tab by the scheduled runs. True reach (unique accounts) is only visible to the account owner. "Collab" reels are co-posted with another account and draw on its audience too.</p>
+  </section>
+
+  <section class="card" id="v-trend" hidden>
+    <h2>Posts per month</h2>
+    <div class="filters"><select id="f-tpage"></select></div>
+    <div id="chart"><div class="tip" id="tip"></div></div>
+    <p class="note">Bars: all posts that month. Red: flagged posts. Months before monitoring began come from the 11 Nov 2026 baseline.</p>
+  </section>
+
+  <section class="card" id="v-evid" hidden>
+    <h2>Evidence archive</h2>
+    <div class="filters"><select id="f-ev"><option value="">All archived posts</option><option value="deleted">Deleted or unavailable only</option><option value="onscreen">With on-screen text</option></select></div>
+    <div class="scroll"><table id="t-evid"><thead><tr><th>Post</th><th>Status</th><th class="hide-sm">On-screen text</th><th class="hide-sm">Captured</th><th class="hide-sm">SHA-256 (first 16)</th></tr></thead><tbody></tbody></table></div>
+    <p class="note">Each record holds the post's public text and counts as captured, a SHA-256 hash of that record, any on-screen text read from the image or video, and a log of later checks. Runs re-check whether archived posts still exist; deletions are kept, not removed. For court use, pair these with your own dated screenshots.</p>
+  </section>
+
+  <section class="card" id="v-site" hidden>
+    <h2>Website watch — delhivillageportal.netlify.app</h2>
+    <div class="scroll"><table id="t-site"><thead><tr><th>Snapshot</th><th>Pages</th><th>Changes since previous</th><th class="hide-sm">'Hardline groups' listed</th><th class="hide-sm">Notes</th></tr></thead><tbody></tbody></table></div>
+    <p class="note">Each evening run fingerprints every page of the site and lists anything added, removed or edited.</p>
+  </section>
+
+  <section class="card" id="v-watch" hidden>
+    <h2>Watchlist</h2>
+    <div class="scroll"><table id="t-watch"><thead><tr><th>Page</th><th>Followers</th><th>Status</th><th class="hide-sm">Last checked</th><th class="hide-sm">Notes</th></tr></thead><tbody></tbody></table></div>
+    
+  </section>
+
+  <section class="card" id="v-cand" hidden>
+    <h2>Pages under review</h2>
+    <div class="scroll"><table id="t-cand"><thead><tr><th>Page</th><th>Found via</th><th class="hide-sm">Example post</th><th>First seen</th><th>Status</th></tr></thead><tbody></tbody></table></div>
+    <div class="empty" id="e-cand" hidden>None at the moment.</div>
+  </section>
+
+  <section class="card" id="v-runs" hidden>
+    <h2>Run log</h2>
+    <div class="scroll"><table id="t-runs"><thead><tr><th>When</th><th>Pages</th><th>New posts</th><th>New flagged</th><th class="hide-sm">Notes</th></tr></thead><tbody></tbody></table></div>
+    <div class="empty" id="e-runs" hidden>No runs yet.</div>
+  </section>
+  <p class="note" id="status">Loading…</p>
+  <p class="note">Method: public Instagram and Threads posts are read twice daily; posts are flagged against a published codebook (framing non-natives as occupiers or invaders, calls for expulsion, threats, slurs, targeting of named people or religious sites, promotion of ranked or armed formations). Flags are research judgements, not legal findings. Quoted material is reproduced for documentation only. Links between accounts describe observed public behaviour, not identity.</p>
+</div>
+</main>
+
+<footer>
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <a href="../index.html" class="brand">PRISM</a>
+      <p>An independent research institute studying security across internal, geopolitical, and technological domains.</p>
+    </div>
+    <div class="footer-col">
+      <h4>Explore</h4>
+      <a href="../about-us.html">About Us</a>
+      <a href="../projects.html">Projects</a>
+      <a href="../publications.html">Publications</a>
+      <a href="../experts.html">Experts</a>
+    </div>
+    <div class="footer-col">
+      <h4>Focus Areas</h4>
+      <a href="../internal-security.html">Internal Security</a>
+      <a href="../geopolitics-national-security.html">Geopolitics &amp; National Security</a>
+      <a href="../technology-national-security.html">Technology &amp; National Security</a>
+    </div>
+    <div class="footer-col">
+      <h4>Connect</h4>
+      <a href="../contact-us.html">Contact Us</a>
+      <a href="../careers.html">Careers</a>
+      <a href="../events.html">Events</a>
+      <a href="../privacy-policy.html">Privacy Policy</a>
+    </div>
+  </div>
+  <div class="footer-bottom">© 2026 PRISM — Policy Research Institute for India's Security, Intelligence &amp; Modern Threats.</div>
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js"></script>
+<script>
+(function(){
+const $=s=>document.querySelector(s);
+const S={watch:[],posts:[],cand:[],runs:[],stats:{},nodes:[],links:[],reach:[],arch:[],portal:[],stance:{}};
+let DB=null;
+const fmtD=s=>{if(!s)return'';const d=new Date(s);return isNaN(d)?s:d.toLocaleDateString('en-GB',{day:'2-digit',month:'short',year:'2-digit'})};
+const fmtDT=s=>{if(!s)return'';const d=new Date(s);return isNaN(d)?s:d.toLocaleString('en-GB',{day:'2-digit',month:'short',hour:'2-digit',minute:'2-digit'})};
+const el=(t,txt,cls)=>{const e=document.createElement(t);if(txt!=null)e.textContent=txt;if(cls)e.className=cls;return e};
+const link=(href,txt)=>{const a=el('a',txt);a.href=href;a.target='_blank';a.rel='noopener';return a};
+document.querySelectorAll('#tabs button').forEach(b=>b.onclick=()=>{document.querySelectorAll('#tabs button').forEach(x=>x.classList.toggle('on',x===b));['feed','net','reach','evid','site','trend','watch','cand','runs'].forEach(t=>$('#v-'+t).hidden=t!==b.dataset.t);if(b.dataset.t==='trend')drawChart();if(b.dataset.t==='net')drawNet();if(b.dataset.t==='reach')renderReach();});
+['#f-page','#f-tone','#f-q'].forEach(s=>$(s).addEventListener('input',renderFeed));
+$('#f-tpage').addEventListener('input',drawChart);
+$('#f-rpage').addEventListener('input',renderReach);
+$('#f-ev').addEventListener('input',renderEvid);
+
+function renderKpis(){
+  const flagged=S.posts.filter(p=>p.flagged);
+  const wk=Date.now()-7*864e5;
+  $('#k-pages').textContent=S.watch.filter(w=>w.status!=='Removed').length;
+  const base=Object.values(S.stats).reduce((a,s)=>a+(s.baselineTotal||0),0);
+  $('#k-posts').textContent=(base+S.posts.filter(p=>!p.baseline).length).toLocaleString('en-IN');
+  $('#k-flag7').textContent=flagged.filter(p=>new Date(p.date).getTime()>=wk).length;
+  $('#k-flag').textContent=flagged.length;
+  $('#k-del').textContent=S.arch.filter(a=>a.alive===false).length;
+  $('#k-cand').textContent=S.cand.filter(c=>(c.status||'New')==='New').length;
+  const r=[...S.runs].sort((a,b)=>(b.at||'').localeCompare(a.at||''))[0];
+  $('#lastrun').textContent=r?('Last run: '+fmtDT(r.at)+'.'):'No scheduled run yet.';
+}
+function fillSelect(sel,vals,first){const cur=sel.value;sel.innerHTML='';if(first!=null){const o=el('option',first);o.value='';sel.appendChild(o)}vals.forEach(v=>{const o=el('option',v);o.value=v;sel.appendChild(o)});if([...sel.options].some(o=>o.value===cur))sel.value=cur;}
+function renderFeed(){
+  const tb=$('#t-feed tbody');tb.innerHTML='';
+  const pg=$('#f-page').value,tn=$('#f-tone').value,q=$('#f-q').value.toLowerCase();
+  const rows=S.posts.filter(p=>p.flagged&&(!pg||p.handle===pg)&&(!tn||p.tone===tn)&&(!q||(p.title||'').toLowerCase().includes(q)||(p.reason||'').toLowerCase().includes(q))).sort((a,b)=>(b.date||'').localeCompare(a.date||''));
+  $('#e-feed').hidden=rows.length>0;
+  const LV=latestViews();
+  rows.slice(0,400).forEach(p=>{const tr=el('tr',null,'fl');
+    tr.appendChild(el('td',fmtD(p.date)));
+    tr.appendChild(el('td','@'+p.handle));
+    const td=el('td');td.appendChild(link('https://www.instagram.com/'+(p.type==='reel'?'reel':'p')+'/'+p.code+'/',p.title||'(no caption)'));
+    if(p.tone){td.appendChild(document.createTextNode(' '));td.appendChild(el('span',p.tone,'tag'+(/hostile|mobilis/i.test(p.tone)?' h':'')));}
+    tr.appendChild(td);
+    tr.appendChild(el('td',p.reason||'','hide-sm mute'));
+    tr.appendChild(el('td',LV[p.code]!=null?Number(LV[p.code]).toLocaleString('en-IN'):'','hide-sm'));
+    tr.appendChild(el('td',p.likes==null?'':String(p.likes),'hide-sm'));
+    tr.appendChild(el('td',p.comments==null?'':String(p.comments),'hide-sm'));
+    const st=S.stance[p.code];tr.appendChild(el('td',st?(st.support+' support · '+st.pushback+' push back'+(st.neutral?' · '+st.neutral+' other':'')):'','hide-sm mute'));
+    tb.appendChild(tr);});
+}
+function renderWatch(){const tb=$('#t-watch tbody');tb.innerHTML='';
+  S.watch.slice().sort((a,b)=>(a.handle||'').localeCompare(b.handle||'')).forEach(w=>{const tr=el('tr');const td=el('td');td.appendChild(link('https://www.instagram.com/'+w.handle+'/','@'+w.handle));if(w.name){td.appendChild(el('div',w.name,'mute'))}tr.appendChild(td);
+  tr.appendChild(el('td',w.followers==null?'':Number(w.followers).toLocaleString('en-IN')));
+  tr.appendChild(el('td',w.status||'Active'));tr.appendChild(el('td',fmtDT(w.lastChecked),'hide-sm'));tr.appendChild(el('td',w.note||'','hide-sm mute'));tb.appendChild(tr);});}
+function renderCand(){const tb=$('#t-cand tbody');tb.innerHTML='';$('#e-cand').hidden=S.cand.length>0;
+  S.cand.slice().sort((a,b)=>(b.firstSeen||'').localeCompare(a.firstSeen||'')).forEach(c=>{const tr=el('tr');const td=el('td');td.appendChild(link('https://www.instagram.com/'+c.handle+'/','@'+c.handle));tr.appendChild(td);tr.appendChild(el('td',c.foundVia||''));tr.appendChild(el('td',c.sample||'','hide-sm mute'));tr.appendChild(el('td',fmtD(c.firstSeen)));tr.appendChild(el('td',c.status||'New'));
+    tb.appendChild(tr);});}
+async function decide(c,st,btn){if(!DB){$('#status').textContent='Sign in to change the watchlist.';return}btn.disabled=true;btn.textContent='Saving…';
+  try{const now=new Date().toISOString();
+    if(st==='Approved'){await DB.doc('watchlist/'+c.handle).set({handle:c.handle,status:'Active',added:now.slice(0,10),note:'Approved from dashboard. '+(c.sample||''),lastChecked:null});}
+    await DB.doc('candidates/'+c.handle).update({status:st,decidedAt:now});
+    $('#status').textContent=(st==='Approved'?'@'+c.handle+' added to the watchlist; the next run will start tracking it.':'@'+c.handle+' dismissed.');
+  }catch(e){btn.disabled=false;btn.textContent=st==='Approved'?'Watch':'Dismiss';$('#status').textContent='Could not save: '+(e&&e.message||e);}}
+function renderEvid(){const tb=$('#t-evid tbody');tb.innerHTML='';const f=$('#f-ev').value;
+  S.arch.filter(a=>!f||(f==='deleted'&&a.alive===false)||(f==='onscreen'&&a.onscreen)).sort((a,b)=>(a.alive===false?0:1)-(b.alive===false?0:1)||(b.capturedAt||'').localeCompare(a.capturedAt||'')).forEach(a=>{const tr=el('tr',null,a.alive===false?'fl':'');
+    const td=el('td');td.appendChild(link(a.url,(a.metaText||a.code).slice(0,120)));td.appendChild(el('div','@'+a.handle,'mute'));tr.appendChild(td);
+    const last=(a.checks||[]).slice(-1)[0];tr.appendChild(el('td',a.alive===false?('Deleted / unavailable'+(a.deletedSeen?' since '+fmtD(a.deletedSeen):'')):('Live'+(last?' · checked '+fmtD(last.at):''))));
+    tr.appendChild(el('td',a.onscreen||'','hide-sm mute'));tr.appendChild(el('td',fmtDT(a.capturedAt),'hide-sm'));tr.appendChild(el('td',(a.sha256||'').slice(0,16),'hide-sm mute'));tb.appendChild(tr);});}
+function renderSite(){const tb=$('#t-site tbody');tb.innerHTML='';
+  S.portal.slice().sort((a,b)=>(b.at||'').localeCompare(a.at||'')).forEach(p=>{const tr=el('tr',null,(p.changes||[]).length?'fl':'');tr.appendChild(el('td',fmtDT(p.at)));tr.appendChild(el('td',String(Object.keys(p.pages||{}).length)));
+    tr.appendChild(el('td',(p.changes||[]).length?(p.changes||[]).join('; '):'No change'));tr.appendChild(el('td',(p.hardlineGroups||[]).join(', '),'hide-sm'));tr.appendChild(el('td',p.notes||'','hide-sm mute'));tb.appendChild(tr);});}
+function renderRuns(){const tb=$('#t-runs tbody');tb.innerHTML='';$('#e-runs').hidden=S.runs.length>0;
+  S.runs.slice().sort((a,b)=>(b.at||'').localeCompare(a.at||'')).slice(0,60).forEach(r=>{const tr=el('tr');tr.appendChild(el('td',fmtDT(r.at)));tr.appendChild(el('td',r.pagesChecked==null?'':String(r.pagesChecked)));tr.appendChild(el('td',r.newPosts==null?'':String(r.newPosts)));tr.appendChild(el('td',r.newFlagged==null?'':String(r.newFlagged)));tr.appendChild(el('td',r.notes||'','hide-sm mute'));tb.appendChild(tr);});}
+function monthly(handle){
+  const m={},f={};
+  const st=S.stats[handle];if(st&&st.monthly)Object.entries(st.monthly).forEach(([k,v])=>m[k]=(m[k]||0)+v);
+  const cut=st&&st.baselineThrough||'';
+  S.posts.forEach(p=>{if(p.handle!==handle||!p.date)return;const k=p.date.slice(0,7);if(!p.baseline&&p.date.slice(0,10)>cut)m[k]=(m[k]||0)+1;if(p.flagged)f[k]=(f[k]||0)+1;});
+  return Object.keys(m).concat(Object.keys(f)).filter((v,i,a)=>a.indexOf(v)===i).sort().map(k=>({k,n:m[k]||0,f:f[k]||0}));
+}
+function drawChart(){
+  const box=$('#chart');[...box.querySelectorAll('svg')].forEach(s=>s.remove());
+  const h=$('#f-tpage').value;if(!h)return;const data=monthly(h);if(!data.length)return;
+  const W=box.clientWidth||600,H=220,pl=36,pb=22,pt=8,bw=(W-pl-8)/data.length;
+  const max=Math.max(1,...data.map(d=>d.n));const ns='http://www.w3.org/2000/svg';
+  const svg=document.createElementNS(ns,'svg');svg.setAttribute('width',W);svg.setAttribute('height',H);
+  const css=getComputedStyle(document.documentElement);const c1=css.getPropertyValue('--accent'),c2=css.getPropertyValue('--flag'),cm=css.getPropertyValue('--mute');
+  [0,.5,1].forEach(t=>{const y=pt+(H-pt-pb)*(1-t);const tx=document.createElementNS(ns,'text');tx.setAttribute('x',pl-6);tx.setAttribute('y',y+4);tx.setAttribute('text-anchor','end');tx.setAttribute('font-size','10');tx.setAttribute('fill',cm);tx.textContent=Math.round(max*t);svg.appendChild(tx);});
+  const tip=$('#tip');
+  data.forEach((d,i)=>{const x=pl+i*bw+2,w=Math.max(2,bw-4);const hh=(H-pt-pb)*d.n/max,hf=(H-pt-pb)*d.f/max;
+    const r=document.createElementNS(ns,'rect');r.setAttribute('x',x);r.setAttribute('y',H-pb-hh);r.setAttribute('width',w);r.setAttribute('height',hh);r.setAttribute('fill',c1);r.setAttribute('opacity','.75');svg.appendChild(r);
+    const rf=document.createElementNS(ns,'rect');rf.setAttribute('x',x);rf.setAttribute('y',H-pb-hf);rf.setAttribute('width',w);rf.setAttribute('height',hf);rf.setAttribute('fill',c2);svg.appendChild(rf);
+    const hit=document.createElementNS(ns,'rect');hit.setAttribute('x',x-2);hit.setAttribute('y',pt);hit.setAttribute('width',bw);hit.setAttribute('height',H-pt-pb);hit.setAttribute('fill','transparent');
+    const show=ev=>{tip.style.display='block';tip.textContent=d.k+': '+d.n+' posts, '+d.f+' flagged';const bx=box.getBoundingClientRect();let lx=(ev.clientX||bx.left+x)-bx.left+8;lx=Math.min(lx,W-150);tip.style.left=lx+'px';tip.style.top='4px';};
+    hit.addEventListener('mousemove',show);hit.addEventListener('click',show);hit.addEventListener('mouseleave',()=>tip.style.display='none');svg.appendChild(hit);
+    if(data.length<=14||i%2===0){const tx=document.createElementNS(ns,'text');tx.setAttribute('x',x+w/2);tx.setAttribute('y',H-6);tx.setAttribute('text-anchor','middle');tx.setAttribute('font-size','10');tx.setAttribute('fill',cm);tx.textContent=d.k.slice(2).replace('-','/');svg.appendChild(tx);}
+  });
+  box.appendChild(svg);
+}
+
+const NCOL={hostile:'#D85A30',adjacent:'#7F77DD',heritage:'#888780',target:'#BA7517',site:'#A32D2D'};
+const NLAB={hostile:'Hostile cluster',adjacent:'Adjacent network',heritage:'Heritage (not hostile)',target:'Targeted communities',site:'Website / off-platform'};
+let sim=null;
+function renderLinksTable(){const tb=$('#t-links tbody');tb.innerHTML='';const lab=id=>{const n=S.nodes.find(x=>x.id===id);return n?(n.label||id):id};
+  S.links.slice().sort((a,b)=>(b.lastSeen||'').localeCompare(a.lastSeen||'')).forEach(l=>{const tr=el('tr');tr.appendChild(el('td',lab(l.from)));tr.appendChild(el('td',lab(l.to)));tr.appendChild(el('td',l.kind||''));tr.appendChild(el('td',l.evidence||'','hide-sm mute'));tr.appendChild(el('td',fmtD(l.lastSeen),'hide-sm'));tb.appendChild(tr);});}
+function drawNet(){
+  renderLinksTable();
+  const box=$('#net');if($('#v-net').hidden||!window.d3)return;
+  box.querySelectorAll('svg').forEach(s=>s.remove());
+  const W=box.clientWidth||640,H=520;const tip=$('#ntip');
+  const nodes=S.nodes.map(n=>Object.assign({},n));const ids=new Set(nodes.map(n=>n.id));
+  const links=S.links.filter(l=>ids.has(l.from)&&ids.has(l.to)).map(l=>Object.assign({source:l.from,target:l.to},l));
+  const css=getComputedStyle(document.documentElement);const ink=css.getPropertyValue('--ink'),mute=css.getPropertyValue('--mute');
+  const svg=d3.select(box).append('svg').attr('width',W).attr('height',H);
+  svg.append('defs').append('marker').attr('id','ah').attr('viewBox','0 0 10 10').attr('refX',22).attr('refY',5).attr('markerWidth',6).attr('markerHeight',6).attr('orient','auto').append('path').attr('d','M2 1L8 5L2 9').attr('fill','none').attr('stroke',mute).attr('stroke-width',1.5);
+  const r=n=>n.followers?Math.max(10,Math.min(30,4+Math.sqrt(n.followers)/9)):12;
+  const showTip=(ev,txt)=>{tip.style.display='block';tip.textContent=txt;const bx=box.getBoundingClientRect();let x=ev.clientX-bx.left+10,y=ev.clientY-bx.top+10;tip.style.left=Math.min(x,W-290)+'px';tip.style.top=Math.min(y,H-80)+'px';};
+  const lk=svg.append('g').selectAll('line').data(links).join('line').attr('stroke',d=>d.kind&&/same operator|rank/i.test(d.kind)?NCOL.hostile:mute).attr('stroke-width',d=>d.strength==='strong'?2.2:1.2).attr('stroke-dasharray',d=>d.strength==='weak'||d.indirect?'4 3':null).attr('marker-end','url(#ah)').style('cursor','pointer')
+    .on('click mousemove',(ev,d)=>showTip(ev,(d.kind||'link')+(d.evidence?': '+d.evidence:''))).on('mouseleave',()=>tip.style.display='none');
+  const g=svg.append('g').selectAll('g').data(nodes).join('g').style('cursor','pointer')
+    .on('click mousemove',(ev,d)=>showTip(ev,(d.label||d.id)+(d.followers?' · '+Number(d.followers).toLocaleString('en-IN')+' followers':'')+(d.note?' — '+d.note:''))).on('mouseleave',()=>tip.style.display='none')
+    .call(d3.drag().on('start',(ev,d)=>{if(!ev.active)sim.alphaTarget(.3).restart();d.fx=d.x;d.fy=d.y}).on('drag',(ev,d)=>{d.fx=ev.x;d.fy=ev.y}).on('end',(ev,d)=>{if(!ev.active)sim.alphaTarget(0);}));
+  g.append('circle').attr('r',r).attr('fill',d=>NCOL[d.type]||mute).attr('fill-opacity',.85).attr('stroke',d=>NCOL[d.type]||mute).attr('stroke-width',1);
+  g.append('text').text(d=>d.label||d.id).attr('x',d=>r(d)+4).attr('y',4).attr('font-size',12).attr('fill',ink);
+  if(sim)sim.stop();
+  const tx={site:.5,hostile:.45,target:.5,adjacent:.82,heritage:.15};const ty={site:.12,hostile:.4,target:.75,adjacent:.45,heritage:.85};
+  sim=d3.forceSimulation(nodes).force('link',d3.forceLink(links).id(d=>d.id).distance(110).strength(.4)).force('charge',d3.forceManyBody().strength(-320))
+    .force('x',d3.forceX(d=>W*(tx[d.type]??.5)).strength(.12)).force('y',d3.forceY(d=>H*(ty[d.type]??.5)).strength(.12)).force('col',d3.forceCollide(d=>r(d)+28))
+    .on('tick',()=>{nodes.forEach(n=>{n.x=Math.max(14,Math.min(W-150,n.x));n.y=Math.max(16,Math.min(H-16,n.y))});lk.attr('x1',d=>d.source.x).attr('y1',d=>d.source.y).attr('x2',d=>d.target.x).attr('y2',d=>d.target.y);g.attr('transform',d=>`translate(${d.x},${d.y})`);});
+  const lg=$('#net-legend');lg.textContent='';Object.entries(NLAB).forEach(([k,v])=>{const s=el('span',null);s.style.marginRight='14px';const dot=el('span','●');dot.style.color=NCOL[k];s.appendChild(dot);s.appendChild(document.createTextNode(' '+v));lg.appendChild(s)});
+  const sp=el('span','  Dashed = weak or indirect link · circle size = followers');lg.appendChild(sp);
+}
+window.addEventListener('resize',()=>{if(!$('#v-net').hidden)drawNet()});
+
+const med=a=>{if(!a.length)return 0;const b=a.slice().sort((x,y)=>x-y);const m=b.length>>1;return b.length%2?b[m]:Math.round((b[m-1]+b[m])/2)};
+const fmtN=n=>n==null?'':Number(n).toLocaleString('en-IN');
+function snaps(h){return S.reach.filter(r=>r.handle===h).sort((a,b)=>(a.at||'').localeCompare(b.at||''))}
+function latestViews(){const m={};const hs=[...new Set(S.reach.map(r=>r.handle))];hs.forEach(h=>{const l=snaps(h).slice(-1)[0];if(l&&l.views)Object.assign(m,l.views)});return m}
+function ownVals(s){const c=new Set(s.collab||[]);return Object.entries(s.views||{}).filter(([k])=>!c.has(k)).map(([,v])=>v)}
+function renderReach(){
+  const hs=[...new Set(S.reach.map(r=>r.handle))].sort();
+  const tb=$('#t-reach tbody');tb.innerHTML='';
+  hs.forEach(h=>{const l=snaps(h).slice(-1)[0];if(!l)return;const v=ownVals(l);const md=med(v);const tr=el('tr');
+    const td=el('td');td.appendChild(link('https://www.instagram.com/'+h+'/reels/','@'+h));tr.appendChild(td);
+    tr.appendChild(el('td',fmtN(l.followers)));tr.appendChild(el('td',String(Object.keys(l.views||{}).length)));tr.appendChild(el('td',fmtN(md)));
+    tr.appendChild(el('td',fmtN(v.length?Math.round(v.reduce((a,b)=>a+b,0)/v.length):0),'hide-sm'));tr.appendChild(el('td',fmtN(Math.max(0,...Object.values(l.views||{}))),'hide-sm'));
+    tr.appendChild(el('td',l.followers?(md/l.followers*100).toFixed(1)+'%':''));tr.appendChild(el('td',String((l.collab||[]).length),'hide-sm'));tr.appendChild(el('td',fmtD(l.at),'hide-sm'));tb.appendChild(tr);});
+  fillSelect($('#f-rpage'),hs,null);
+  const h=$('#f-rpage').value;const tt=$('#t-top tbody');tt.innerHTML='';
+  if(h){const ss=snaps(h);const l=ss.slice(-1)[0];const lt=new Date(l.at).getTime();const prev=ss.slice().reverse().find(s=>lt-new Date(s.at).getTime()>=6*864e5);
+    const P={};S.posts.forEach(p=>P[p.code]=p);const col=new Set(l.collab||[]);
+    Object.entries(l.views||{}).sort((a,b)=>b[1]-a[1]).slice(0,25).forEach(([c,v])=>{const tr=el('tr');const p=P[c];const td=el('td');td.appendChild(link('https://www.instagram.com/reel/'+c+'/',p&&p.title?p.title:c));if(col.has(c)){td.appendChild(document.createTextNode(' '));td.appendChild(el('span','collab','tag'))}tr.appendChild(td);
+      tr.appendChild(el('td',fmtN(v)));const pv=prev&&prev.views?prev.views[c]:null;tr.appendChild(el('td',pv!=null?'+'+fmtN(v-pv):'','hide-sm'));
+      const ft=el('td',null,'hide-sm');if(p&&p.flagged)ft.appendChild(el('span',p.tone||'flagged','tag h'));tr.appendChild(ft);tt.appendChild(tr);});}
+  drawReachChart(hs);
+}
+function drawReachChart(hs){const box=$('#rchart');if($('#v-reach').hidden||!window.d3)return;box.querySelectorAll('svg').forEach(s=>s.remove());
+  const W=box.clientWidth||600,H=200,pl=50,pb=24,pt=10,pr=110;const series=hs.map(h=>({h,pts:snaps(h).map(s=>({t:new Date(s.at),v:med(ownVals(s))}))})).filter(s=>s.pts.length);
+  if(!series.length)return;const all=series.flatMap(s=>s.pts);
+  let [t0,t1]=d3.extent(all,d=>d.t);if(+t0===+t1){t0=new Date(+t0-3*864e5);t1=new Date(+t1+3*864e5)}
+  const x=d3.scaleTime().domain([t0,t1]).range([pl,W-pr]);const y=d3.scaleLinear().domain([0,d3.max(all,d=>d.v)*1.15||1]).nice().range([H-pb,pt]);
+  const css=getComputedStyle(document.documentElement);const mute=css.getPropertyValue('--mute'),ink=css.getPropertyValue('--ink');const cols=['#D85A30','#7F77DD','#1D9E75','#BA7517','#378ADD'];
+  const svg=d3.select(box).append('svg').attr('width',W).attr('height',H);
+  svg.append('g').attr('transform',`translate(0,${H-pb})`).call(d3.axisBottom(x).ticks(5).tickSizeOuter(0)).call(g=>g.selectAll('text').attr('fill',mute)).call(g=>g.selectAll('line,path').attr('stroke',mute));
+  svg.append('g').attr('transform',`translate(${pl},0)`).call(d3.axisLeft(y).ticks(4).tickFormat(d3.format('~s'))).call(g=>g.selectAll('text').attr('fill',mute)).call(g=>g.selectAll('line,path').attr('stroke',mute));
+  const tip=$('#rtip');
+  series.forEach((s,i)=>{const c=cols[i%cols.length];svg.append('path').datum(s.pts).attr('fill','none').attr('stroke',c).attr('stroke-width',2).attr('d',d3.line().x(d=>x(d.t)).y(d=>y(d.v)));
+    svg.selectAll(null).data(s.pts).join('circle').attr('cx',d=>x(d.t)).attr('cy',d=>y(d.v)).attr('r',4).attr('fill',c).style('cursor','pointer').on('click mousemove',(ev,d)=>{tip.style.display='block';tip.textContent='@'+s.h+' · '+d.t.toLocaleDateString('en-GB')+': median '+fmtN(d.v)+' views';const bx=box.getBoundingClientRect();tip.style.left=Math.min(ev.clientX-bx.left+8,W-220)+'px';tip.style.top='0px'}).on('mouseleave',()=>tip.style.display='none');
+    const last=s.pts[s.pts.length-1];svg.append('text').attr('x',x(last.t)+8).attr('y',y(last.v)+4).attr('font-size',12).attr('fill',ink).text('@'+s.h);});
+}
+window.addEventListener('resize',()=>{if(!$('#v-reach').hidden)renderReach()});
+
+window.addEventListener('resize',()=>{if(!$('#v-trend').hidden)drawChart()});
+function renderAll(){
+  renderKpis();
+  fillSelect($('#f-page'),[...new Set(S.posts.filter(p=>p.flagged).map(p=>p.handle))].sort(),'All pages');
+  fillSelect($('#f-tone'),[...new Set(S.posts.filter(p=>p.flagged).map(p=>p.tone).filter(Boolean))].sort(),'All tones');
+  const hs=[...new Set(Object.keys(S.stats).concat(S.posts.map(p=>p.handle)))].sort();fillSelect($('#f-tpage'),hs,null);
+  renderFeed();renderWatch();renderCand();renderRuns();renderEvid();renderSite();if(!$('#v-trend').hidden)drawChart();if(!$('#v-net').hidden)drawNet();else renderLinksTable();if(!$('#v-reach').hidden)renderReach();
+}
+(async()=>{
+  const load=async()=>{
+    try{const r=await fetch('data.json?t='+Date.now(),{cache:'no-store'});const d=await r.json();
+      if(!d||!d.generatedAt){$('#status').textContent='The first data update is in progress — check back shortly.';return}
+      const arr=k=>(d[k]||[]).map(x=>Object.assign({id:x.id},x.data||x));
+      S.watch=arr('watchlist');S.posts=arr('posts');S.cand=arr('candidates').filter(c=>!/Dismissed/.test(c.status||''));S.runs=arr('runs');
+      S.nodes=arr('nodes');S.links=arr('links');S.reach=arr('reachsnap');S.arch=arr('archive');S.portal=arr('portal');
+      S.stats={};arr('stats').forEach(x=>S.stats[x.handle||x.id]=x);S.stance={};arr('stance').forEach(x=>S.stance[x.id]=x);
+      $('#status').textContent='Data as of '+fmtDT(d.generatedAt)+' IST.';renderAll();
+    }catch(e){$('#status').textContent='Could not load the data file.'}
+  };
+  await load();setInterval(load,10*60*1000);
+})();
+})();
+</script>
+<script src="../script.js"></script>
+</body>
+</html>
