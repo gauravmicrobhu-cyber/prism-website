@@ -59,6 +59,19 @@ tr.fl td:first-child{box-shadow:inset 3px 0 0 var(--flag)}
 .empty{color:var(--mute);padding:16px 4px}
 .mini{border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:6px;padding:3px 8px;font:12px var(--sans);cursor:pointer;margin-right:4px}
 .mon .note{font-size:12px;color:var(--mute);margin-top:8px}
+.op-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px;margin:10px 0 14px}
+.op-box{border:1px solid var(--line);border-radius:10px;padding:12px}
+.op-box h3{font:600 14px/1.3 var(--sans);margin:0 0 6px}
+.op-box .big{font:600 22px/1.1 var(--serif)}
+.op-acc{display:flex;justify-content:space-between;gap:8px;border-bottom:1px solid var(--line);padding:6px 0;font-size:13px}
+.op-acc:last-child{border-bottom:0}
+.badge{display:inline-block;font-size:11px;font-weight:600;padding:2px 8px;border-radius:999px;background:var(--flagbg);color:var(--flag)}
+.badge.as{background:var(--line);color:var(--ink)}
+.heat td.c{text-align:center;min-width:34px;font-variant-numeric:tabular-nums}
+.legend span{margin-right:14px;font-size:12px;color:var(--mute)}
+.legend i{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:4px;vertical-align:-1px}
+.rep{display:flex;justify-content:space-between;align-items:center;gap:10px;border:1px solid var(--line);border-radius:10px;padding:12px;margin-bottom:8px}
+#tl{width:100%;position:relative}#hr{width:100%;position:relative}
 @media (max-width:560px){.hide-sm{display:none}}
 </style>
 </head>
@@ -101,7 +114,10 @@ tr.fl td:first-child{box-shadow:inset 3px 0 0 var(--flag)}
   </div>
 
   <div class="tabs" id="tabs">
-    <button data-t="net" class="on">Network</button>
+    <button data-t="op" class="on">Operator</button>
+    <button data-t="net">Network</button>
+    <button data-t="tgt">Targets</button>
+    <button data-t="tl">Two-wedge timeline</button>
     <button data-t="feed">Flagged feed</button>
     <button data-t="reach">Reach</button>
     <button data-t="trend">Activity trend</button>
@@ -110,9 +126,32 @@ tr.fl td:first-child{box-shadow:inset 3px 0 0 var(--flag)}
     <button data-t="watch">Watchlist</button>
     <button data-t="cand">Under review</button>
     <button data-t="runs">Run log</button>
+    <button data-t="rep">Reports</button>
   </div>
 
-  <section class="card" id="v-net">
+  <section class="card" id="v-op">
+    <h2>Operator profile</h2>
+    <div id="op-body"></div>
+    <p class="note">Attribution of the accounts to one operator was verified by the PRISM researcher through direct review of the operator's own videos and posts, and is supported by the open-source signals shown. The location is the researcher's assessment from the operator's spoken accent and has not been independently confirmed. No personal name is published.</p>
+  </section>
+
+  <section class="card" id="v-tgt" hidden>
+    <h2>Who is targeted</h2>
+    <p class="mute" style="margin-bottom:10px">Flagged posts per month by the group they target. A post can target more than one group. Groups are matched from caption, on-screen text and the flag reason; the slur “Bhappe” counts toward Sikhs and Punjabis.</p>
+    <div class="scroll"><table class="heat" id="t-heat"><thead></thead><tbody></tbody></table></div>
+    <h2 style="margin-top:18px">Summary by group</h2>
+    <div class="scroll"><table id="t-tgt"><thead><tr><th>Group</th><th>Flagged posts</th><th class="hide-sm">Last 30 days</th><th class="hide-sm">First seen</th><th>Latest</th></tr></thead><tbody></tbody></table></div>
+  </section>
+
+  <section class="card" id="v-tl" hidden>
+    <h2>Two wedges, one operator</h2>
+    <p class="mute" style="margin-bottom:6px">Each dot is a flagged post. Top lane: Delhi natives vs Partition "refugees" and outsiders. Bottom lane: North vs South India. Numbered markers are key events, listed below. Tap a dot to open the post.</p>
+    <div class="legend" id="tl-legend"></div>
+    <div id="tl"><div class="tip" id="tltip" style="white-space:normal;max-width:300px"></div></div>
+    <div class="scroll" style="margin-top:12px"><table id="t-ev"><thead><tr><th>Date</th><th>Event</th><th class="hide-sm">Why it matters</th></tr></thead><tbody></tbody></table></div>
+  </section>
+
+  <section class="card" id="v-net" hidden>
     <h2>Linkage map</h2>
     <div id="net" style="position:relative;width:100%;height:520px"><div class="tip" id="ntip" style="white-space:normal;max-width:280px"></div></div>
     <div class="note" id="net-legend"></div>
@@ -140,6 +179,9 @@ tr.fl td:first-child{box-shadow:inset 3px 0 0 var(--flag)}
     <h2 style="margin-top:18px">Most-viewed reels</h2>
     <div class="filters"><select id="f-rpage"></select></div>
     <div class="scroll"><table id="t-top"><thead><tr><th>Reel</th><th>Views</th><th class="hide-sm">7-day gain</th><th class="hide-sm">Flag</th></tr></thead><tbody></tbody></table></div>
+    <h2 style="margin-top:18px">Flagged reels against each page's typical reel</h2>
+    <div id="hr"><div class="tip" id="hrtip"></div></div>
+    <p class="note">Bars: latest public views of flagged reels (orange = mobilising or hostile; grey = watch). The dashed line marks the median view count of that page's own reels in the same snapshot.</p>
     <p class="note">Views are Instagram's public play counts read from each page's Reels tab by the scheduled runs. True reach (unique accounts) is only visible to the account owner. "Collab" reels are co-posted with another account and draw on its audience too.</p>
   </section>
 
@@ -153,7 +195,8 @@ tr.fl td:first-child{box-shadow:inset 3px 0 0 var(--flag)}
   <section class="card" id="v-evid" hidden>
     <h2>Evidence archive</h2>
     <div class="filters"><select id="f-ev"><option value="">All archived posts</option><option value="deleted">Deleted or unavailable only</option><option value="onscreen">With on-screen text</option></select></div>
-    <div class="scroll"><table id="t-evid"><thead><tr><th>Post</th><th>Status</th><th class="hide-sm">On-screen text</th><th class="hide-sm">Captured</th><th class="hide-sm">SHA-256 (first 16)</th></tr></thead><tbody></tbody></table></div>
+    <p class="mute" id="ev-sum" style="margin-bottom:10px"></p>
+    <div class="scroll"><table id="t-evid"><thead><tr><th>Post</th><th>Status</th><th class="hide-sm">Checks</th><th class="hide-sm">On-screen text</th><th class="hide-sm">Captured</th><th class="hide-sm">SHA-256 (first 16)</th></tr></thead><tbody></tbody></table></div>
     <p class="note">Each record holds the post's public text and counts as captured, a SHA-256 hash of that record, any on-screen text read from the image or video, and a log of later checks. Runs re-check whether archived posts still exist; deletions are kept, not removed. For court use, pair these with your own dated screenshots.</p>
   </section>
 
@@ -180,8 +223,13 @@ tr.fl td:first-child{box-shadow:inset 3px 0 0 var(--flag)}
     <div class="scroll"><table id="t-runs"><thead><tr><th>When</th><th>Pages</th><th>New posts</th><th>New flagged</th><th class="hide-sm">Notes</th></tr></thead><tbody></tbody></table></div>
     <div class="empty" id="e-runs" hidden>No runs yet.</div>
   </section>
+  <section class="card" id="v-rep" hidden>
+    <h2>Reports</h2>
+    <p class="mute" style="margin-bottom:10px">Fixed, citable versions of PRISM's findings from this monitor, issued monthly.</p>
+    <div id="rep-list"></div>
+  </section>
   <p class="note" id="status">Loading…</p>
-  <p class="note">Method: public Instagram and Threads posts are read twice daily; posts are flagged against a published codebook (framing non-natives as occupiers or invaders, calls for expulsion, threats, slurs, targeting of named people or religious sites, promotion of ranked or armed formations). Flags are research judgements, not legal findings. Quoted material is reproduced for documentation only. Links between accounts describe observed public behaviour, not identity.</p>
+  <p class="note">Method: public Instagram and Threads posts are read twice daily; posts are flagged against a published codebook (framing non-natives as occupiers or invaders, calls for expulsion, threats, slurs, targeting of named people or religious sites, promotion of ranked or armed formations). Flags are research judgements, not legal findings. Quoted material is reproduced for documentation only. Links between accounts describe observed public behaviour, not identity, except where marked as researcher-verified.</p>
 </div>
 </main>
 
@@ -225,7 +273,7 @@ const fmtD=s=>{if(!s)return'';const d=new Date(s);return isNaN(d)?s:d.toLocaleDa
 const fmtDT=s=>{if(!s)return'';const d=new Date(s);return isNaN(d)?s:d.toLocaleString('en-GB',{day:'2-digit',month:'short',hour:'2-digit',minute:'2-digit'})};
 const el=(t,txt,cls)=>{const e=document.createElement(t);if(txt!=null)e.textContent=txt;if(cls)e.className=cls;return e};
 const link=(href,txt)=>{const a=el('a',txt);a.href=href;a.target='_blank';a.rel='noopener';return a};
-document.querySelectorAll('#tabs button').forEach(b=>b.onclick=()=>{document.querySelectorAll('#tabs button').forEach(x=>x.classList.toggle('on',x===b));['feed','net','reach','evid','site','trend','watch','cand','runs'].forEach(t=>$('#v-'+t).hidden=t!==b.dataset.t);if(b.dataset.t==='trend')drawChart();if(b.dataset.t==='net')drawNet();if(b.dataset.t==='reach')renderReach();});
+document.querySelectorAll('#tabs button').forEach(b=>b.onclick=()=>{document.querySelectorAll('#tabs button').forEach(x=>x.classList.toggle('on',x===b));['op','tgt','tl','feed','net','reach','evid','site','trend','watch','cand','runs','rep'].forEach(t=>$('#v-'+t).hidden=t!==b.dataset.t);if(b.dataset.t==='trend')drawChart();if(b.dataset.t==='tl')drawTimeline();if(b.dataset.t==='net')drawNet();if(b.dataset.t==='reach')renderReach();});
 ['#f-page','#f-tone','#f-q'].forEach(s=>$(s).addEventListener('input',renderFeed));
 $('#f-tpage').addEventListener('input',drawChart);
 $('#f-rpage').addEventListener('input',renderReach);
@@ -278,9 +326,12 @@ async function decide(c,st,btn){if(!DB){$('#status').textContent='Sign in to cha
     $('#status').textContent=(st==='Approved'?'@'+c.handle+' added to the watchlist; the next run will start tracking it.':'@'+c.handle+' dismissed.');
   }catch(e){btn.disabled=false;btn.textContent=st==='Approved'?'Watch':'Dismiss';$('#status').textContent='Could not save: '+(e&&e.message||e);}}
 function renderEvid(){const tb=$('#t-evid tbody');tb.innerHTML='';const f=$('#f-ev').value;
+  const lastAll=S.arch.flatMap(a=>(a.checks||[]).map(c=>c.at||'')).sort().slice(-1)[0];const del=S.arch.filter(a=>a.alive===false).length;
+  $('#ev-sum').textContent=S.arch.length+' posts archived · '+(S.arch.length-del)+' live · '+del+' deleted or unavailable'+(S.arch.some(a=>a.edited)?' · '+S.arch.filter(a=>a.edited).length+' edited':'')+(lastAll?' · last check '+fmtDT(lastAll):'')+'.';
   S.arch.filter(a=>!f||(f==='deleted'&&a.alive===false)||(f==='onscreen'&&a.onscreen)).sort((a,b)=>(a.alive===false?0:1)-(b.alive===false?0:1)||(b.capturedAt||'').localeCompare(a.capturedAt||'')).forEach(a=>{const tr=el('tr',null,a.alive===false?'fl':'');
     const td=el('td');td.appendChild(link(a.url,(a.metaText||a.code).slice(0,120)));td.appendChild(el('div','@'+a.handle,'mute'));tr.appendChild(td);
-    const last=(a.checks||[]).slice(-1)[0];tr.appendChild(el('td',a.alive===false?('Deleted / unavailable'+(a.deletedSeen?' since '+fmtD(a.deletedSeen):'')):('Live'+(last?' · checked '+fmtD(last.at):''))));
+    const last=(a.checks||[]).slice(-1)[0];tr.appendChild(el('td',a.alive===false?('Deleted / unavailable'+(a.deletedSeen?' since '+fmtD(a.deletedSeen):'')):('Live'+(last?' · checked '+fmtDT(last.at):''))));
+    tr.appendChild(el('td',String((a.checks||[]).length)+(a.edited?' · edited':''),'hide-sm'));
     tr.appendChild(el('td',a.onscreen||'','hide-sm mute'));tr.appendChild(el('td',fmtDT(a.capturedAt),'hide-sm'));tr.appendChild(el('td',(a.sha256||'').slice(0,16),'hide-sm mute'));tb.appendChild(tr);});}
 function renderSite(){const tb=$('#t-site tbody');tb.innerHTML='';
   S.portal.slice().sort((a,b)=>(b.at||'').localeCompare(a.at||'')).forEach(p=>{const tr=el('tr',null,(p.changes||[]).length?'fl':'');tr.appendChild(el('td',fmtDT(p.at)));tr.appendChild(el('td',String(Object.keys(p.pages||{}).length)));
@@ -368,7 +419,7 @@ function renderReach(){
     Object.entries(l.views||{}).sort((a,b)=>b[1]-a[1]).slice(0,25).forEach(([c,v])=>{const tr=el('tr');const p=P[c];const td=el('td');td.appendChild(link('https://www.instagram.com/reel/'+c+'/',p&&p.title?p.title:c));if(col.has(c)){td.appendChild(document.createTextNode(' '));td.appendChild(el('span','collab','tag'))}tr.appendChild(td);
       tr.appendChild(el('td',fmtN(v)));const pv=prev&&prev.views?prev.views[c]:null;tr.appendChild(el('td',pv!=null?'+'+fmtN(v-pv):'','hide-sm'));
       const ft=el('td',null,'hide-sm');if(p&&p.flagged)ft.appendChild(el('span',p.tone||'flagged','tag h'));tr.appendChild(ft);tt.appendChild(tr);});}
-  drawReachChart(hs);
+  drawReachChart(hs);drawHostileReach(hs);
 }
 function drawReachChart(hs){const box=$('#rchart');if($('#v-reach').hidden||!window.d3)return;box.querySelectorAll('svg').forEach(s=>s.remove());
   const W=box.clientWidth||600,H=200,pl=50,pb=24,pt=10,pr=110;const series=hs.map(h=>({h,pts:snaps(h).map(s=>({t:new Date(s.at),v:med(ownVals(s))}))})).filter(s=>s.pts.length);
@@ -387,11 +438,146 @@ function drawReachChart(hs){const box=$('#rchart');if($('#v-reach').hidden||!win
 window.addEventListener('resize',()=>{if(!$('#v-reach').hidden)renderReach()});
 
 window.addEventListener('resize',()=>{if(!$('#v-trend').hidden)drawChart()});
+window.addEventListener('resize',()=>{if(!$('#v-tl').hidden)drawTimeline()});
+/* ---- Editorial content: update by hand when findings change ---- */
+const OPERATOR={
+  name:'Operator A',
+  attribution:'Researcher-verified: one person runs the core accounts below.',
+  location:'Most probably outside India, likely Canada',
+  locationBasis:'Researcher assessment of a US-English accent in the operator’s own videos. Not independently confirmed.',
+  accounts:[
+    {handle:'delhinativeclub',label:'@delhinativeclub',platform:'Instagram',role:'“Community” page: slogans, history, clan catalogues'},
+    {handle:'thinkingcraftsman',label:'@thinkingcraftsman',platform:'Instagram',role:'Personal reel account: harshest material; wears portal rank “Sanrakshak”'},
+    {handle:'threads_delhinativeclub',label:'@delhinativeclub',platform:'Threads',role:'Mirror of the club page'},
+    {handle:null,label:'delhivillageportal.netlify.app',platform:'Website',role:'Doctrine: Virasat Sankalp ranks, oaths, arms table, “Hardline Groups”',url:'https://delhivillageportal.netlify.app/'}
+  ],
+  wedges:[
+    {name:'Delhi natives vs Partition “refugees”',where:'Mainly @delhinativeclub, the portal, Threads',since:'Nov 2025'},
+    {name:'North vs South India',where:'Mainly @thinkingcraftsman, amplified by South-identity pages',since:'Mar 2025; intensified Nov 2026'}
+  ],
+  findings:[
+    'Apparent public support is partly self-generated: the second account posted the most extreme “supporter” comments on the club page.',
+    'The ranked “organisation” (five ranks, arms table, six Hardline Groups) shows no visible members besides the operator.',
+    'The club page keeps a heritage-style surface while the personal account carries the most derogatory content, including anti-Sikh posts.',
+    'The August 2026 apology did not change course: the ranked organisation was founded on 21 Sep and slur posts resumed in October.'
+  ]
+};
+const EVENTS=[
+  {date:'2025-11-06',text:'Monitoring baseline begins',why:'First logged anti-Punjabi framing on @delhinativeclub.'},
+  {date:'2026-03-28',text:'“Remove all immigrants from Delhi” reel',why:'25.4k views; peak of the first hostile wave.'},
+  {date:'2026-07-07',text:'“Go back to Pakistan” post',why:'Explicit expulsion call with the slur “Bhappe”.'},
+  {date:'2026-08-17',text:'Apology to Punjabis',why:'Pinned de-escalation post; later reversed.'},
+  {date:'2026-09-21',text:'Virasat Sankalp founded',why:'Portal launches five ranks, oaths and an arms table.'},
+  {date:'2026-10-10',text:'Naraina gurdwara post',why:'A Sikh religious site framed as “encroachment”.'},
+  {date:'2026-11-08',text:'North–South push',why:'“Remember this South Indians”, “CLEAN SOUTH!”, “War!”.'},
+  {date:'2026-11-11',text:'Khatri/Arora clan catalogue',why:'28 posts in two days listing clans the portal names for expulsion.'}
+];
+const REPORTS=[
+  {title:'Findings brief — November 2026',file:'brief-2026-11.pdf',date:'2026-11-12',note:'Single-operator attribution, anti-Sikh strand, North–South wedge, reach.'}
+];
+const TARGETS=[
+  {k:'punjabi',label:'Punjabis & Partition migrants',col:'#D85A30',re:/punjab|refugee|partition|migrant|immigrant|outsider|occupation|occupier|coloni|1947|invasion|invader|hijack|encroach|bhappe|upper caste|non-native/i},
+  {k:'sikh',label:'Sikhs',col:'#A32D2D',re:/\bsikh|gurdwara|gurudwara|bhappe|paape/i},
+  {k:'clans',label:'Khatri / Arora clans',col:'#BA7517',re:/khatri|arora|\bsood\b|bhatia|khukhrain|khanna|kakkar|sareen|bunjahi|dhai gar|barah ghar/i},
+  {k:'north',label:'North Indians (North–South wedge)',col:'#7F77DD',re:/south indian|dravid|clean south|karnataka|tamil|north indian/i},
+  {k:'named',label:'Named individuals',col:'#378ADD',re:/Barkha|Dear [A-Z][a-z]+ [A-Z][a-z]+/}
+];
+/* ---------------------------------------------------------------- */
+const ptxt=p=>[p.title||'',p.onscreen||'',p.reason||''].join(' ');
+const targetsOf=p=>{const t=ptxt(p);const out=TARGETS.filter(g=>g.re.test(t)).map(g=>g.k);if(p.wedge==='north-south'&&!out.includes('north'))out.push('north');return out};
+const wedgeOf=p=>{const t=targetsOf(p);if(p.wedge==='north-south'||t.includes('north'))return 'ns';if(t.some(k=>k!=='north'&&k!=='named'))return 'nr';return null};
+const flaggedPosts=()=>S.posts.filter(p=>p.flagged&&p.date&&!/de-escalation/i.test(p.tone||''));
+const postUrl=p=>p.type==='thread'?'https://www.threads.com/@delhinativeclub':'https://www.instagram.com/'+(p.type==='reel'?'reel':'p')+'/'+p.code+'/';
+
+function renderOperator(){
+  const b=$('#op-body');b.innerHTML='';
+  const head=el('div');head.appendChild(el('span','Researcher-verified','badge'));head.appendChild(document.createTextNode(' '));head.appendChild(el('span','Location: assessment','badge as'));b.appendChild(head);
+  b.appendChild(el('p',OPERATOR.attribution,'')).style.marginTop='8px';
+  const grid=el('div',null,'op-grid');
+  const fol=h=>{if(!h)return null;const w=S.watch.find(x=>x.handle===h);if(w&&w.followers)return w.followers;const n=S.nodes.find(x=>x.id===h);return n&&n.followers||null};
+  const tot=OPERATOR.accounts.reduce((a,x)=>a+(fol(x.handle)||0),0);
+  const fl=S.posts.filter(p=>p.flagged&&OPERATOR.accounts.some(a=>a.handle&&a.handle===p.handle));
+  const b1=el('div',null,'op-box');b1.appendChild(el('h3','Combined followers'));b1.appendChild(el('div',fmtN(tot),'big'));b1.appendChild(el('div','across '+OPERATOR.accounts.filter(a=>a.handle).length+' social accounts','mute'));grid.appendChild(b1);
+  const b2=el('div',null,'op-box');b2.appendChild(el('h3','Flagged posts'));b2.appendChild(el('div',fmtN(fl.length),'big'));b2.appendChild(el('div','from the operator’s accounts','mute'));grid.appendChild(b2);
+  const b3=el('div',null,'op-box');b3.appendChild(el('h3','Likely location'));b3.appendChild(el('div',OPERATOR.location,''));b3.appendChild(el('div',OPERATOR.locationBasis,'mute'));grid.appendChild(b3);
+  b.appendChild(grid);
+  const g2=el('div',null,'op-grid');
+  const acc=el('div',null,'op-box');acc.appendChild(el('h3','Assets'));
+  OPERATOR.accounts.forEach(a=>{const r=el('div',null,'op-acc');const l=el('div');const url=a.url||(a.platform==='Threads'?'https://www.threads.com/@delhinativeclub':'https://www.instagram.com/'+a.handle+'/');l.appendChild(link(url,a.label));l.appendChild(el('span',' · '+a.platform,'mute'));l.appendChild(el('div',a.role,'mute'));r.appendChild(l);const f=fol(a.handle);r.appendChild(el('div',f?fmtN(f):'','mute'));acc.appendChild(r)});
+  g2.appendChild(acc);
+  const wd=el('div',null,'op-box');wd.appendChild(el('h3','Two wedges'));
+  OPERATOR.wedges.forEach((w,i)=>{const n=flaggedPosts().filter(p=>wedgeOf(p)===(i===0?'nr':'ns')).length;const r=el('div',null,'op-acc');const l=el('div');l.appendChild(el('div',w.name));l.appendChild(el('div',w.where+' · since '+w.since,'mute'));r.appendChild(l);r.appendChild(el('div',n+' posts','mute'));wd.appendChild(r)});
+  g2.appendChild(wd);b.appendChild(g2);
+  const fh=el('h3','What the single-operator finding means');fh.style.font='600 14px/1.3 var(--sans)';fh.style.margin='4px 0 6px';b.appendChild(fh);
+  const ol=el('ol');ol.style.margin='0 0 0 18px';OPERATOR.findings.forEach(f=>ol.appendChild(el('li',f)));b.appendChild(ol);
+}
+
+function months(from,to){const out=[];let [y,m]=from.split('-').map(Number);const [ty,tm]=to.split('-').map(Number);while(y<ty||(y===ty&&m<=tm)){out.push(y+'-'+String(m).padStart(2,'0'));m++;if(m>12){m=1;y++}}return out}
+function renderTargets(){
+  const P=flaggedPosts();if(!P.length)return;
+  const ks=P.map(p=>p.date.slice(0,7)).sort();const first=ks.find(k=>k>='2025-11')||ks[0];const ms=months(first,ks[ks.length-1]);
+  const th=$('#t-heat thead');th.innerHTML='';const hr=el('tr');hr.appendChild(el('th','Group'));ms.forEach(m=>{const t=el('th',new Date(m+'-01').toLocaleDateString('en-GB',{month:'short'})+(m.endsWith('-01')||m===ms[0]?' '+m.slice(2,4):''));t.style.textAlign='center';hr.appendChild(t)});th.appendChild(hr);
+  const tb=$('#t-heat tbody');tb.innerHTML='';
+  const cnt={};P.forEach(p=>targetsOf(p).forEach(k=>{const key=k+'|'+p.date.slice(0,7);cnt[key]=(cnt[key]||0)+1}));
+  const mx=Math.max(1,...Object.values(cnt));
+  TARGETS.forEach(g=>{const tr=el('tr');const td=el('td');const dot=el('i');dot.style.cssText='display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:6px;background:'+g.col;td.appendChild(dot);td.appendChild(document.createTextNode(g.label));td.style.whiteSpace='nowrap';tr.appendChild(td);
+    ms.forEach(m=>{const n=cnt[g.k+'|'+m]||0;const c=el('td',n?String(n):'','c');if(n){c.style.background=g.col+Math.round(30+200*n/mx).toString(16).padStart(2,'0');c.style.color=n/mx>.5?'#fff':'var(--ink)';c.title=g.label+', '+m+': '+n+' flagged posts'}tr.appendChild(c)});tb.appendChild(tr)});
+  const t2=$('#t-tgt tbody');t2.innerHTML='';const cut=new Date(Date.now()-30*864e5).toISOString().slice(0,10);
+  TARGETS.map(g=>({g,ps:P.filter(p=>targetsOf(p).includes(g.k)).sort((a,b)=>a.date.localeCompare(b.date))})).filter(x=>x.ps.length).sort((a,b)=>b.ps.length-a.ps.length).forEach(({g,ps})=>{const tr=el('tr');tr.appendChild(el('td',g.label));tr.appendChild(el('td',String(ps.length)));tr.appendChild(el('td',String(ps.filter(p=>p.date>=cut).length),'hide-sm'));tr.appendChild(el('td',fmtD(ps[0].date),'hide-sm'));const l=ps[ps.length-1];const td=el('td');td.appendChild(link(postUrl(l),(l.title||l.onscreen||l.code).slice(0,80)));td.appendChild(el('div','@'+l.handle+' · '+fmtD(l.date),'mute'));tr.appendChild(td);t2.appendChild(tr)});
+}
+
+function renderEvents(){const tb=$('#t-ev tbody');tb.innerHTML='';EVENTS.map((e,i)=>Object.assign({n:i+1},e)).reverse().forEach(e=>{const tr=el('tr');tr.appendChild(el('td',e.n+'. '+fmtD(e.date)));tr.appendChild(el('td',e.text));tr.appendChild(el('td',e.why,'hide-sm mute'));tb.appendChild(tr)})}
+
+function drawTimeline(){
+  const box=$('#tl');if($('#v-tl').hidden||!window.d3)return;box.querySelectorAll('svg').forEach(s=>s.remove());
+  const P=flaggedPosts().map(p=>({p,w:wedgeOf(p),t:new Date(p.date)})).filter(d=>d.w&&!isNaN(d.t));
+  const W=box.clientWidth||640,sm=W<560,H=sm?280:260,pl=sm?10:118,pr=sm?10:16,pt=sm?76:56,lane=80;
+  const css=getComputedStyle(document.querySelector('.mon')||document.documentElement);const mute=css.getPropertyValue('--mute'),ink=css.getPropertyValue('--ink'),line=css.getPropertyValue('--line');
+  const ext=d3.extent(P.map(d=>d.t).concat(EVENTS.map(e=>new Date(e.date))));
+  const x=d3.scaleTime().domain([d3.timeMonth.floor(ext[0]),d3.timeMonth.ceil(ext[1])]).range([pl,W-pr]);
+  const LANES=[{k:'nr',label:'Native vs refugee',col:'#D85A30'},{k:'ns',label:'North vs South',col:'#7F77DD'}];
+  const ly=k=>pt+(k==='nr'?0:lane)+lane/2;
+  const svg=d3.select(box).append('svg').attr('width',W).attr('height',H);
+  LANES.forEach(L=>{svg.append('rect').attr('x',pl).attr('y',ly(L.k)-lane/2+4).attr('width',W-pl-pr).attr('height',lane-8).attr('fill',L.col).attr('fill-opacity',.06).attr('rx',6);if(sm)svg.append('text').attr('x',pl+6).attr('y',ly(L.k)-lane/2+18).attr('font-size',11).attr('fill',mute).text(L.label);else svg.append('text').attr('x',pl-10).attr('y',ly(L.k)+4).attr('text-anchor','end').attr('font-size',12).attr('fill',ink).text(L.label)});
+  svg.append('g').attr('transform',`translate(0,${pt+2*lane+4})`).call(d3.axisBottom(x).ticks(Math.max(3,Math.floor((W-pl)/90))).tickFormat(d3.timeFormat('%b %y')).tickSizeOuter(0)).call(g=>g.selectAll('text').attr('fill',mute)).call(g=>g.selectAll('line,path').attr('stroke',mute));
+  const tip=$('#tltip');const show=(ev,txt)=>{tip.style.display='block';tip.textContent=txt;const bx=box.getBoundingClientRect();tip.style.left=Math.min(ev.clientX-bx.left+10,W-310)+'px';tip.style.top=Math.max(0,ev.clientY-bx.top-50)+'px'};
+  const evs=EVENTS.map(e=>({e,t:new Date(e.date)}));
+  evs.forEach((d,i)=>{const xx=x(d.t);const yy=pt-14-(i%(sm?3:2))*20;svg.append('line').attr('x1',xx).attr('x2',xx).attr('y1',yy+9).attr('y2',pt+2*lane).attr('stroke',mute).attr('stroke-dasharray','3 3').attr('stroke-opacity',.7);
+    const g=svg.append('g').style('cursor','pointer').on('click mousemove',ev=>show(ev,(i+1)+'. '+fmtD(d.e.date)+': '+d.e.text+' \u2014 '+d.e.why)).on('mouseleave',()=>tip.style.display='none');
+    g.append('circle').attr('cx',xx).attr('cy',yy).attr('r',9).attr('fill',ink);g.append('text').attr('x',xx).attr('y',yy+4).attr('text-anchor','middle').attr('font-size',11).attr('font-weight',600).attr('fill',css.getPropertyValue('--bg')||'#fff').text(i+1);});
+  const rnd=d3.randomLcg(42);const jit=()=>(rnd()-.5)*(lane-26);
+  P.forEach(d=>{d.y=ly(d.w)+jit()});
+  const L=Object.fromEntries(LANES.map(l=>[l.k,l]));
+  svg.append('g').selectAll('circle').data(P).join('circle').attr('cx',d=>x(d.t)).attr('cy',d=>d.y).attr('r',d=>/hostile/i.test(d.p.tone||'')?6:4.5).attr('fill',d=>L[d.w].col).attr('fill-opacity',.75).attr('stroke',d=>/sikh|gurdwara|gurudwara|bhappe|paape/i.test(ptxt(d.p))?ink:'none').attr('stroke-width',1.5).style('cursor','pointer')
+    .on('mousemove',(ev,d)=>show(ev,fmtD(d.p.date)+' · @'+d.p.handle+': '+(d.p.title||d.p.onscreen||d.p.code).slice(0,140)+(d.p.tone?' ['+d.p.tone+']':''))).on('mouseleave',()=>tip.style.display='none').on('click',(ev,d)=>window.open(postUrl(d.p),'_blank','noopener'));
+  const lg=$('#tl-legend');lg.innerHTML='';LANES.forEach(l=>{const s=el('span');const i=el('i');i.style.background=l.col;s.appendChild(i);s.appendChild(document.createTextNode(l.label+' ('+P.filter(d=>d.w===l.k).length+')'));lg.appendChild(s)});
+  const s2=el('span','Larger dot = openly hostile · dark ring = names Sikhs or a gurdwara');lg.appendChild(s2);
+}
+
+function drawHostileReach(hs){
+  const box=$('#hr');if($('#v-reach').hidden||!window.d3)return;box.querySelectorAll('svg').forEach(s=>s.remove());
+  const P={};S.posts.forEach(p=>P[p.code]=p);const rows=[];const meds={};
+  hs.forEach(h=>{const l=snaps(h).slice(-1)[0];if(!l)return;meds[h]=med(ownVals(l));Object.entries(l.views||{}).forEach(([c,v])=>{const p=P[c];if(p&&p.flagged&&!/de-escalation/i.test(p.tone||''))rows.push({h,c,v,p})})});
+  rows.sort((a,b)=>b.v-a.v);const R=rows.slice(0,12);if(!R.length){box.appendChild(el('div','No flagged reels with view counts yet.','empty'));return}
+  const W=box.clientWidth||640,lw=Math.min(300,W*.45),rowH=30,H=R.length*rowH+30;
+  const css=getComputedStyle(document.querySelector('.mon')||document.documentElement);const mute=css.getPropertyValue('--mute'),ink=css.getPropertyValue('--ink');
+  const x=d3.scaleLinear().domain([0,d3.max(R,d=>d.v)*1.12]).range([lw,W-60]);
+  const svg=d3.select(box).append('svg').attr('width',W).attr('height',H);const tip=$('#hrtip');
+  R.forEach((d,i)=>{const y=i*rowH+6;const lab=(d.p.title||d.c);const t=svg.append('text').attr('x',lw-8).attr('y',y+15).attr('text-anchor','end').attr('font-size',12).attr('fill',ink).text((lab.length>Math.floor(lw/7)?lab.slice(0,Math.floor(lw/7)-1)+'…':lab));
+    svg.append('rect').attr('x',lw).attr('y',y+3).attr('width',Math.max(1,x(d.v)-lw)).attr('height',rowH-12).attr('fill',/hostile/i.test(d.p.tone||'')?'#D85A30':'#888780').attr('fill-opacity',.85).style('cursor','pointer')
+      .on('mousemove',ev=>{tip.style.display='block';tip.textContent='@'+d.h+': '+fmtN(d.v)+' views · '+(meds[d.h]?Math.round(d.v/meds[d.h])+'× page median':'');const bx=box.getBoundingClientRect();tip.style.left=Math.min(ev.clientX-bx.left+8,W-240)+'px';tip.style.top=(y-22)+'px'}).on('mouseleave',()=>tip.style.display='none').on('click',()=>window.open('https://www.instagram.com/reel/'+d.c+'/','_blank','noopener'));
+    svg.append('text').attr('x',x(d.v)+5).attr('y',y+15).attr('font-size',11).attr('fill',mute).text(fmtN(d.v));
+    if(meds[d.h]){const mx=x(meds[d.h]);svg.append('line').attr('x1',mx).attr('x2',mx).attr('y1',y+1).attr('y2',y+rowH-7).attr('stroke',ink).attr('stroke-dasharray','2 2')}});
+}
+
+function renderReports(){const b=$('#rep-list');b.innerHTML='';REPORTS.slice().sort((a,c)=>c.date.localeCompare(a.date)).forEach(r=>{const d=el('div',null,'rep');const l=el('div');l.appendChild(el('div',r.title));l.appendChild(el('div',fmtD(r.date)+' · '+r.note,'mute'));d.appendChild(l);const a=link(r.file,'Download PDF');a.className='mini';a.setAttribute('download','');d.appendChild(a);b.appendChild(d)})}
+
 function renderAll(){
   renderKpis();
   fillSelect($('#f-page'),[...new Set(S.posts.filter(p=>p.flagged).map(p=>p.handle))].sort(),'All pages');
   fillSelect($('#f-tone'),[...new Set(S.posts.filter(p=>p.flagged).map(p=>p.tone).filter(Boolean))].sort(),'All tones');
   const hs=[...new Set(Object.keys(S.stats).concat(S.posts.map(p=>p.handle)))].sort();fillSelect($('#f-tpage'),hs,null);
+  renderOperator();renderTargets();renderEvents();renderReports();if(!$('#v-tl').hidden)drawTimeline();
   renderFeed();renderWatch();renderCand();renderRuns();renderEvid();renderSite();if(!$('#v-trend').hidden)drawChart();if(!$('#v-net').hidden)drawNet();else renderLinksTable();if(!$('#v-reach').hidden)renderReach();
 }
 (async()=>{
