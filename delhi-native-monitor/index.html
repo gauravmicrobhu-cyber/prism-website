@@ -19,6 +19,9 @@
 <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;0,8..60,700;1,8..60,400;1,8..60,600&family=Public+Sans:wght@400;500;600;700&display=swap" rel="stylesheet"/>
 <link rel="stylesheet" href="../style.css"/>
 <style>
+.mon [hidden]{display:none!important}
+.mon .card{display:block;padding:14px;border-radius:10px;transition:none}
+.mon .card:hover{transform:none;box-shadow:none}
 .mon{--card:var(--surface);--line:var(--border);--mute:var(--ink-soft);--accent:var(--brand);--flag:#B3261E;--flagbg:#FBEAE8;--ok:#2F6B3A;--warn:#9A6A00;font-size:14px;line-height:1.5}
 :root[data-theme="dark"] .mon{--flag:#FF8A80;--flagbg:#3A1F1C;--ok:#8FD19E;--warn:#E3B955}
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .mon{--flag:#FF8A80;--flagbg:#3A1F1C;--ok:#8FD19E;--warn:#E3B955}}
@@ -250,7 +253,7 @@ function renderFeed(){
   rows.slice(0,400).forEach(p=>{const tr=el('tr',null,'fl');
     tr.appendChild(el('td',fmtD(p.date)));
     tr.appendChild(el('td','@'+p.handle));
-    const td=el('td');td.appendChild(link('https://www.instagram.com/'+(p.type==='reel'?'reel':'p')+'/'+p.code+'/',p.title||'(no caption)'));
+    const td=el('td');td.appendChild(p.type==='thread'?link('https://www.threads.com/@delhinativeclub',p.title||'(no caption)'):link('https://www.instagram.com/'+(p.type==='reel'?'reel':'p')+'/'+p.code+'/',p.title||'(no caption)'));
     if(p.tone){td.appendChild(document.createTextNode(' '));td.appendChild(el('span',p.tone,'tag'+(/hostile|mobilis/i.test(p.tone)?' h':'')));}
     tr.appendChild(td);
     tr.appendChild(el('td',p.reason||'','hide-sm mute'));
@@ -261,7 +264,7 @@ function renderFeed(){
     tb.appendChild(tr);});
 }
 function renderWatch(){const tb=$('#t-watch tbody');tb.innerHTML='';
-  S.watch.slice().sort((a,b)=>(a.handle||'').localeCompare(b.handle||'')).forEach(w=>{const tr=el('tr');const td=el('td');td.appendChild(link('https://www.instagram.com/'+w.handle+'/','@'+w.handle));if(w.name){td.appendChild(el('div',w.name,'mute'))}tr.appendChild(td);
+  S.watch.slice().sort((a,b)=>(a.handle||'').localeCompare(b.handle||'')).forEach(w=>{const tr=el('tr');const td=el('td');td.appendChild(w.url?link(w.url,'@'+w.handle.replace(/^threads_/,'')+' (Threads)'):link('https://www.instagram.com/'+w.handle+'/','@'+w.handle));if(w.name){td.appendChild(el('div',w.name,'mute'))}tr.appendChild(td);
   tr.appendChild(el('td',w.followers==null?'':Number(w.followers).toLocaleString('en-IN')));
   tr.appendChild(el('td',w.status||'Active'));tr.appendChild(el('td',fmtDT(w.lastChecked),'hide-sm'));tr.appendChild(el('td',w.note||'','hide-sm mute'));tb.appendChild(tr);});}
 function renderCand(){const tb=$('#t-cand tbody');tb.innerHTML='';$('#e-cand').hidden=S.cand.length>0;
