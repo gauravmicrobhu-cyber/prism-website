@@ -101,8 +101,8 @@ tr.fl td:first-child{box-shadow:inset 3px 0 0 var(--flag)}
   </div>
 
   <div class="tabs" id="tabs">
-    <button data-t="feed" class="on">Flagged feed</button>
-    <button data-t="net">Network</button>
+    <button data-t="net" class="on">Network</button>
+    <button data-t="feed">Flagged feed</button>
     <button data-t="reach">Reach</button>
     <button data-t="trend">Activity trend</button>
     <button data-t="evid">Evidence</button>
@@ -112,7 +112,15 @@ tr.fl td:first-child{box-shadow:inset 3px 0 0 var(--flag)}
     <button data-t="runs">Run log</button>
   </div>
 
-  <section class="card" id="v-feed">
+  <section class="card" id="v-net">
+    <h2>Linkage map</h2>
+    <div id="net" style="position:relative;width:100%;height:520px"><div class="tip" id="ntip" style="white-space:normal;max-width:280px"></div></div>
+    <div class="note" id="net-legend"></div>
+    <div class="scroll" style="margin-top:12px"><table id="t-links"><thead><tr><th>From</th><th>To</th><th>Link</th><th class="hide-sm">Evidence</th><th class="hide-sm">Last seen</th></tr></thead><tbody></tbody></table></div>
+    <p class="note">Updated by each scheduled run. Drag nodes to rearrange; tap a node or line for details.</p>
+  </section>
+
+  <section class="card" id="v-feed" hidden>
     <h2>Flagged posts</h2>
     <div class="filters">
       <select id="f-page"><option value="">All pages</option></select>
@@ -123,13 +131,6 @@ tr.fl td:first-child{box-shadow:inset 3px 0 0 var(--flag)}
     <div class="empty" id="e-feed" hidden>No flagged posts yet.</div>
   </section>
 
-  <section class="card" id="v-net" hidden>
-    <h2>Linkage map</h2>
-    <div id="net" style="position:relative;width:100%;height:520px"><div class="tip" id="ntip" style="white-space:normal;max-width:280px"></div></div>
-    <div class="note" id="net-legend"></div>
-    <div class="scroll" style="margin-top:12px"><table id="t-links"><thead><tr><th>From</th><th>To</th><th>Link</th><th class="hide-sm">Evidence</th><th class="hide-sm">Last seen</th></tr></thead><tbody></tbody></table></div>
-    <p class="note">Updated by each scheduled run. Drag nodes to rearrange; tap a node or line for details.</p>
-  </section>
 
   <section class="card" id="v-reach" hidden>
     <h2>Reach (public reel views)</h2>
@@ -299,7 +300,7 @@ function drawChart(){
   const W=box.clientWidth||600,H=220,pl=36,pb=22,pt=8,bw=(W-pl-8)/data.length;
   const max=Math.max(1,...data.map(d=>d.n));const ns='http://www.w3.org/2000/svg';
   const svg=document.createElementNS(ns,'svg');svg.setAttribute('width',W);svg.setAttribute('height',H);
-  const css=getComputedStyle(document.documentElement);const c1=css.getPropertyValue('--accent'),c2=css.getPropertyValue('--flag'),cm=css.getPropertyValue('--mute');
+  const css=getComputedStyle(document.querySelector('.mon')||document.documentElement);const c1=css.getPropertyValue('--accent'),c2=css.getPropertyValue('--flag'),cm=css.getPropertyValue('--mute');
   [0,.5,1].forEach(t=>{const y=pt+(H-pt-pb)*(1-t);const tx=document.createElementNS(ns,'text');tx.setAttribute('x',pl-6);tx.setAttribute('y',y+4);tx.setAttribute('text-anchor','end');tx.setAttribute('font-size','10');tx.setAttribute('fill',cm);tx.textContent=Math.round(max*t);svg.appendChild(tx);});
   const tip=$('#tip');
   data.forEach((d,i)=>{const x=pl+i*bw+2,w=Math.max(2,bw-4);const hh=(H-pt-pb)*d.n/max,hf=(H-pt-pb)*d.f/max;
@@ -325,7 +326,7 @@ function drawNet(){
   const W=box.clientWidth||640,H=520;const tip=$('#ntip');
   const nodes=S.nodes.map(n=>Object.assign({},n));const ids=new Set(nodes.map(n=>n.id));
   const links=S.links.filter(l=>ids.has(l.from)&&ids.has(l.to)).map(l=>Object.assign({source:l.from,target:l.to},l));
-  const css=getComputedStyle(document.documentElement);const ink=css.getPropertyValue('--ink'),mute=css.getPropertyValue('--mute');
+  const css=getComputedStyle(document.querySelector('.mon')||document.documentElement);const ink=css.getPropertyValue('--ink'),mute=css.getPropertyValue('--mute');
   const svg=d3.select(box).append('svg').attr('width',W).attr('height',H);
   svg.append('defs').append('marker').attr('id','ah').attr('viewBox','0 0 10 10').attr('refX',22).attr('refY',5).attr('markerWidth',6).attr('markerHeight',6).attr('orient','auto').append('path').attr('d','M2 1L8 5L2 9').attr('fill','none').attr('stroke',mute).attr('stroke-width',1.5);
   const r=n=>n.followers?Math.max(10,Math.min(30,4+Math.sqrt(n.followers)/9)):12;
@@ -374,7 +375,7 @@ function drawReachChart(hs){const box=$('#rchart');if($('#v-reach').hidden||!win
   if(!series.length)return;const all=series.flatMap(s=>s.pts);
   let [t0,t1]=d3.extent(all,d=>d.t);if(+t0===+t1){t0=new Date(+t0-3*864e5);t1=new Date(+t1+3*864e5)}
   const x=d3.scaleTime().domain([t0,t1]).range([pl,W-pr]);const y=d3.scaleLinear().domain([0,d3.max(all,d=>d.v)*1.15||1]).nice().range([H-pb,pt]);
-  const css=getComputedStyle(document.documentElement);const mute=css.getPropertyValue('--mute'),ink=css.getPropertyValue('--ink');const cols=['#D85A30','#7F77DD','#1D9E75','#BA7517','#378ADD'];
+  const css=getComputedStyle(document.querySelector('.mon')||document.documentElement);const mute=css.getPropertyValue('--mute'),ink=css.getPropertyValue('--ink');const cols=['#D85A30','#7F77DD','#1D9E75','#BA7517','#378ADD'];
   const svg=d3.select(box).append('svg').attr('width',W).attr('height',H);
   svg.append('g').attr('transform',`translate(0,${H-pb})`).call(d3.axisBottom(x).ticks(5).tickSizeOuter(0)).call(g=>g.selectAll('text').attr('fill',mute)).call(g=>g.selectAll('line,path').attr('stroke',mute));
   svg.append('g').attr('transform',`translate(${pl},0)`).call(d3.axisLeft(y).ticks(4).tickFormat(d3.format('~s'))).call(g=>g.selectAll('text').attr('fill',mute)).call(g=>g.selectAll('line,path').attr('stroke',mute));
